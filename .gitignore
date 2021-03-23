@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/web,visualstudio,csharp
-# Edit at https://www.toptal.com/developers/gitignore?templates=web,visualstudio,csharp
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudio,web,csharp
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,web,csharp
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -541,4 +541,4 @@ FodyWeavers.xsd
 
 # Fody - auto-generated XML schema
 
-# End of https://www.toptal.com/developers/gitignore/api/web,visualstudio,csharp
+# End of https://www.toptal.com/developers/gitignore/api/visualstudio,web,csharp

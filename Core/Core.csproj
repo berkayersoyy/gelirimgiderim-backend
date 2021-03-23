@@ -5,8 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstract\" />
-    <Folder Include="Concrete\" />
+    <None Remove="DataAccess\gelirimgiderim-d0b53-firebase-adminsdk-e6whg-67c64a2c74.json" />
+    <None Remove="gelirimgiderim-d0b53-firebase-adminsdk-e6whg-67c64a2c74.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DataAccess\Firebase\gelirimgiderim-d0b53-firebase-adminsdk-e6whg-67c64a2c74.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Firestore" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="gelirimgiderim-d0b53-firebase-adminsdk-e6whg-67c64a2c74.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

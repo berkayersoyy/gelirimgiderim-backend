@@ -1,13 +1,24 @@
-﻿namespace Core.Entities.Concrete
+﻿using Core.Entities.Abstract;
+using Google.Cloud.Firestore;
+
+namespace Core.Entities.Concrete
 {
-    public class User
+    [FirestoreData]
+    public class User:IEntity
     {
-        public int Id { get; set; }
+        [FirestoreProperty] 
+        public string Id { get; set; }
+        [FirestoreProperty]
         public string FirstName { get; set; }
+        [FirestoreProperty]
         public string LastName { get; set; }
+        [FirestoreProperty]
         public string Email { get; set; }
+        [FirestoreProperty]
         public byte[] PasswordHash { get; set; }
+        [FirestoreProperty]
         public byte[] PasswordSalt { get; set; }
+        [FirestoreProperty]
         public bool Status { get; set; }
     }
 }

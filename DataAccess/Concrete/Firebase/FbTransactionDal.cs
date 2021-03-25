@@ -7,7 +7,7 @@ namespace DataAccess.Concrete.Firebase
 {
     public class FbTransactionDal:FirebaseRepositoryBase<Transaction>,ITransactionDal
     {
-        public FbTransactionDal(string transactions = "transactions") : base(transactions)
+        public FbTransactionDal() : base(FirebaseCollections.Transactions)
         {
 
         }

@@ -6,7 +6,7 @@ namespace DataAccess.Concrete.Firebase
 {
     public class FbUserDal:FirebaseRepositoryBase<User>
     {
-        public FbUserDal(string users = "users") : base(users)
+        public FbUserDal() : base(FirebaseCollections.Users)
         {
 
         }

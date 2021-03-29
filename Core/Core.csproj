@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="Google.Cloud.Firestore" Version="2.3.0" />
   </ItemGroup>
 

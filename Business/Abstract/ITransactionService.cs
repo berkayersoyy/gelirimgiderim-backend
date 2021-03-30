@@ -7,7 +7,7 @@ namespace Business.Abstract
     public interface ITransactionService
     {
         IDataResult<List<Transaction>> GetList();
-        IDataResult<Transaction> Get(Transaction transaction);
+        IDataResult<Transaction> Get(string transactionId);
         IResult Add(Transaction transaction);
         IResult Update(Transaction transaction);
         IResult Delete(Transaction transaction);

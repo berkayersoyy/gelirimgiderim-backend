@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Business.Abstract;
 using Business.Constants;
 using Core.Utilities.Results;
@@ -22,9 +23,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Transaction>>(_transactionDal.GetAll(),Messages.TransactionsFetched);
         }
 
-        public IDataResult<Transaction> Get(Transaction transaction)
+        public IDataResult<Transaction> Get(string transactionId)
         {
-            return new SuccessDataResult<Transaction>(_transactionDal.Get(transaction),Messages.TransactionFetched);
+            return new SuccessDataResult<Transaction>(_transactionDal.GetAll().SingleOrDefault(t=>t.Id.Equals(transactionId)),Messages.TransactionFetched);
         }
 
         public IResult Add(Transaction transaction)
@@ -41,7 +42,7 @@ namespace Business.Concrete
 
         public IResult Delete(Transaction transaction)
         {
-            _fbTransactionDal.Delete(transaction);
+            _transactionDal.Delete(transaction);
             return new SuccessResult(Messages.TransactionDeleted);
         }
     }

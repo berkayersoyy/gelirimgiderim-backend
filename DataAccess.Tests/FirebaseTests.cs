@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using DataAccess.Concrete.Firebase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace DataAccess.Tests
 {
@@ -9,7 +10,8 @@ namespace DataAccess.Tests
     public class FirebaseTests
     {
         private ITransactionDal transactionDal;
-        
+
+
         [TestMethod]
         public void Is_All_Data_Retrieved_From_Firestore()
         {

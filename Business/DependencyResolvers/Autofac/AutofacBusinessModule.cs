@@ -16,6 +16,7 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<TransactionManager>().As<ITransactionService>().SingleInstance();
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
+            builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
         }
     }
 }

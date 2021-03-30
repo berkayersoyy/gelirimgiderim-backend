@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Business.Abstract;
 using Business.Constants;
 using Core.Utilities.Results;
@@ -21,9 +22,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(),Messages.CategoriesFetched);
         }
 
-        public IDataResult<Category> Get(Category category)
+        public IDataResult<Category> Get(string categoryId)
         {
-            return new SuccessDataResult<Category>(_categoryDal.Get(category),Messages.CategoryFetched);
+            return new SuccessDataResult<Category>(_categoryDal.GetAll().SingleOrDefault(c=>c.Id.Equals(categoryId)),Messages.CategoryFetched);
         }
 
         public IResult Add(Category category)
@@ -40,7 +41,7 @@ namespace Business.Concrete
 
         public IResult Delete(Category category)
         {
-            _fbCategoryDal.Delete(category);
+            _categoryDal.Delete(category);
             return new SuccessResult(Messages.CategoryDeleted);
         }
     }

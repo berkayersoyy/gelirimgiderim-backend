@@ -9,7 +9,7 @@ namespace Entities.Concrete
         [FirestoreProperty]
         public string Id { get; set; }
         [FirestoreProperty]
-        public string? CategoryId { get; set; }
+        public string CategoryId { get; set; }
         [FirestoreProperty]
         public string Description { get; set; }
         [FirestoreProperty]

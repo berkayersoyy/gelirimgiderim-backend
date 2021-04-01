@@ -17,5 +17,12 @@
         public static string UserFetchedByMail = "User fetched by mail.";
         public static string UserAdded = "User added.";
         public static string UserDeleted = "User deleted.";
+
+        public static string UserRegistered = "User registered.";
+        public static string UserNotFound = "User not found.";
+        public static string WrongPassword = "Wrong password.";
+        public static string SuccessfulLogin = "Login successfully.";
+        public static string UserExists = "User exists.";
+        public static string AccessTokenCreated = "Access token created.";
     }
 }

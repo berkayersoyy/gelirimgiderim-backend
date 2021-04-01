@@ -10,6 +10,10 @@
         {
         }
 
+        public SuccessDataResult(string message):base(default,message,true)
+        {
+            
+        }
         public SuccessDataResult():base(default,true)
         {
             

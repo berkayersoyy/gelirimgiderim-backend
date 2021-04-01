@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="DataAccess\Firebase\gelirimgiderim-d0b53-firebase-adminsdk-e6whg-67c64a2c74.json">
+    <Content Include="DataAccess\FirebaseDatabase\gelirimgiderim-d0b53-firebase-adminsdk-e6whg-67c64a2c74.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -18,8 +18,12 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="Castle.Core" Version="4.4.0" />
+    <PackageReference Include="FirebaseAuthentication.net" Version="3.6.0" />
+    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="FluentValidation" Version="9.5.3" />
     <PackageReference Include="Google.Cloud.Firestore" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
   </ItemGroup>
 
   <ItemGroup>

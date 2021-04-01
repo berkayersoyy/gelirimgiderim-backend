@@ -31,7 +31,7 @@ namespace Business.Concrete
         }
         [ValidationAspect(typeof(TransactionValidator))]
         public IResult Add(Transaction transaction)
-        {
+         {
             _transactionDal.Add(transaction);
             return new SuccessResult(Messages.TransactionAdded);
         }

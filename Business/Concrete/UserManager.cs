@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Business.Abstract;
 using Business.Constants;
 using Core.Entities.Concrete;
@@ -32,6 +34,12 @@ namespace Business.Concrete
         {
             var user = _userDal.GetAll().SingleOrDefault(u => u.Email == email);
             return new SuccessDataResult<User>(user,Messages.UserFetchedByMail);
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            throw new NotImplementedException();
+            //TODO get claims user dal will be added
         }
     }
 }

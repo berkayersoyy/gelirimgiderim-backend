@@ -5,7 +5,7 @@ using Core.Entities.Abstract;
 using Google.Cloud.Firestore;
 using Newtonsoft.Json;
 
-namespace Core.DataAccess.Firebase
+namespace Core.DataAccess.FirebaseDatabase
 {
     public class FirebaseRepositoryBase<T> : IEntityRepository<T>
     where T : class, IEntity, new()

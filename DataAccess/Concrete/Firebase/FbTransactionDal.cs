@@ -1,5 +1,5 @@
 ﻿using Core.Constants;
-using Core.DataAccess.Firebase;
+using Core.DataAccess.FirebaseDatabase;
 using DataAccess.Abstract;
 using Entities.Concrete;
 

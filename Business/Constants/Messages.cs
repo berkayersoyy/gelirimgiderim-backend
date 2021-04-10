@@ -1,4 +1,6 @@
-﻿namespace Business.Constants
+﻿using System;
+
+namespace Business.Constants
 {
     public static class Messages
     {
@@ -24,5 +26,7 @@
         public static string SuccessfulLogin = "Login successfully.";
         public static string UserExists = "User exists.";
         public static string AccessTokenCreated = "Access token created.";
+        public static string UserClaimsFetched = "User claims fetched.";
+        public static string UserRoomsFetched = "User rooms fetched.";
     }
 }

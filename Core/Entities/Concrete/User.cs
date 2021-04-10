@@ -15,9 +15,9 @@ namespace Core.Entities.Concrete
         [FirestoreProperty]
         public string Email { get; set; }
         [FirestoreProperty]
-        public Blob PasswordHash { get; set; }
+        public byte[] PasswordHash { get; set; }
         [FirestoreProperty]
-        public Blob PasswordSalt { get; set; }
+        public byte[] PasswordSalt { get; set; }
         [FirestoreProperty]
         public bool Status { get; set; }
     }

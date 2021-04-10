@@ -6,7 +6,6 @@ using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
 
 namespace Business.Concrete
 {
@@ -33,16 +32,14 @@ namespace Business.Concrete
 
         public IDataResult<User> GetByMail(string email)
         {
-            var user = _userDal.GetAllUsersWithFirebase().SingleOrDefault(u => u.Email == email);
+            var user = _userDal.GetAll().SingleOrDefault(u => u.Email == email);
             return new SuccessDataResult<User>(user,Messages.UserFetchedByMail);
         }
 
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
-            var result = _userDal.GetClaims(user);
-            return new SuccessDataResult<List<OperationClaim>>(result,Messages.UserClaimsFetched);
+            throw new NotImplementedException();
+            //TODO get claims user dal will be added
         }
-
-     
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Core.Constants;
 using Core.Entities.Abstract;
 using Google.Cloud.Firestore;

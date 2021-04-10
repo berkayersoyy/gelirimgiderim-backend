@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public IActionResult GetList()
+        public ActionResult GetList()
         {
             var result = _transactionService.GetList();
             if (result.Success)
@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getbyid")]
-        public IActionResult GetTransactionById(string transactionId)
+        public ActionResult GetTransactionById(string transactionId)
         {
             var result = _transactionService.Get(transactionId);
             if (result.Success)
@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public IActionResult Add(Transaction transaction)
+        public ActionResult Add(Transaction transaction)
         {
             var result = _transactionService.Add(transaction);
             if (result.Success)
@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("delete")]
-        public IActionResult Delete(Transaction transaction)
+        public ActionResult Delete(Transaction transaction)
         {
             var result = _transactionService.Delete(transaction);
             if (result.Success)
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("update")]
-        public IActionResult Update(Transaction transaction)
+        public ActionResult Update(Transaction transaction)
         {
             var result = _transactionService.Update(transaction);
             if (result.Success)

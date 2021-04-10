@@ -1,14 +1,11 @@
 ﻿
-using System;
-using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Constants;
-using Core.Constants;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.Jwt;
 using Entities.Dtos;
-using Firebase.Auth;
+using Google.Cloud.Firestore;
 using User = Core.Entities.Concrete.User;
 
 namespace Business.Concrete
@@ -33,8 +30,8 @@ namespace Business.Concrete
                 Email = userForRegisterDto.Email,
                 FirstName = userForRegisterDto.FirstName,
                 LastName = userForRegisterDto.LastName,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
+                PasswordHash = Blob.CopyFrom(passwordHash),
+                PasswordSalt = Blob.CopyFrom(passwordSalt),
                 Status = true
             };
             _userService.Add(user);
@@ -49,11 +46,13 @@ namespace Business.Concrete
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
-            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password,userToCheck.Data.PasswordHash,userToCheck.Data.PasswordHash))
+            byte[] hash = userToCheck.Data.PasswordHash.ByteString.ToByteArray();
+            byte[] salt = userToCheck.Data.PasswordSalt.ByteString.ToByteArray();
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password,hash,salt))
             {
                 return new ErrorDataResult<User>(Messages.WrongPassword);
             }
-            return new SuccessDataResult<User>(userToCheck.Data,Messages.SuccessfulLogin);
+            return new SuccessDataResult<User>(userToCheck.Data,Messages.SuccessfulLogin); 
         }
 
         public IResult UserExists(string email)

@@ -70,9 +70,18 @@ namespace WebAPI.Controllers
             }
 
             return BadRequest(result);
+          
+        }
+        [HttpGet("getallforroom")]
+        public ActionResult GetListForRoom(Room room)
+        {
+            var result = _transactionService.GetTransactionsForRoom(room);
+            if (result.Success)
             {
-                
+                return Ok(result);
             }
+
+            return BadRequest(result);
         }
     }
 }

@@ -19,11 +19,14 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<FbUserDal>().As<IUserDal>().SingleInstance();
             builder.RegisterType<FbOperationClaimDal>().As<IOperationClaimDal>().SingleInstance();
             builder.RegisterType<FbUserOperationClaimDal>().As<IUserOperationClaimDal>().SingleInstance();
+            builder.RegisterType<FbRoomDal>().As<IRoomDal>().SingleInstance();
+            builder.RegisterType<FbUserRoomDal>().As<IUserRoomDal>().SingleInstance();
 
             builder.RegisterType<TransactionManager>().As<ITransactionService>().SingleInstance();
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
             builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
             builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<RoomManager>().As<IRoomService>().SingleInstance();
 
             builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
 

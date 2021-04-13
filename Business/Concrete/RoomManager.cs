@@ -9,7 +9,7 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-    public class RoomManager:IRoomService
+    public class RoomManager : IRoomService
     {
         private IRoomDal _roomDal;
 
@@ -40,6 +40,7 @@ namespace Business.Concrete
         {
             _roomDal.Add(room);
             return new SuccessResult();
+
         }
 
         public IResult Delete(Room room)

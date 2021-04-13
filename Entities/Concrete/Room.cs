@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using Core.Entities.Abstract;
-using Core.Entities.Concrete;
+using Google.Cloud.Firestore;
 
 namespace Entities.Concrete
 {
+    [FirestoreData]
     public class Room:IEntity
     {
+        [FirestoreProperty]
         public string Id { get; set; }
+        [FirestoreProperty]
         public string Name { get; set; }
-        public List<User> Users { get; set; }
 
     }
 }

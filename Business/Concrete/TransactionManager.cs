@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Linq;
 using Business.Abstract;
 using Business.Constants;
@@ -6,8 +7,9 @@ using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.Firebase;
 using Entities.Concrete;
+using DateTime = System.DateTime;
+using Transaction = Entities.Concrete.Transaction;
 
 namespace Business.Concrete
 {
@@ -31,8 +33,9 @@ namespace Business.Concrete
         }
         [ValidationAspect(typeof(TransactionValidator))]
         public IResult Add(Transaction transaction)
-         {
-            _transactionDal.Add(transaction);
+        {
+            transaction.Date = DateTime.Now.ToString();
+             _transactionDal.Add(transaction);
             return new SuccessResult(Messages.TransactionAdded);
         }
 
@@ -46,6 +49,12 @@ namespace Business.Concrete
         {
             _transactionDal.Delete(transaction);
             return new SuccessResult(Messages.TransactionDeleted);
+        }
+
+        public IDataResult<List<Transaction>> GetTransactionsForRoom(Room room)
+        {
+            var result = _transactionDal.GetAll().Where(t => t.RoomId == room.Id).ToList();
+            return new SuccessDataResult<List<Transaction>>(result, Messages.TransactionsFetched);
         }
     }
 }

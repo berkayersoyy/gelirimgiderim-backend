@@ -40,8 +40,7 @@ namespace DataAccess.Concrete.Firebase
                 where userRoom.RoomId == room.Id
                 select new Room
                 {
-                    Users = room.Users,
-                    Name = room.Name
+                    Name = room.Name,
                 };
             return userRooms.ToList();
         }

@@ -40,7 +40,11 @@ namespace WebAPI
 
             app.UseRouting();
 
+            app.UseCors(builder=>builder.WithOrigins("http://gelirimgiderim.com", "http://www.gelirimgiderim.com").AllowAnyHeader());
+
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

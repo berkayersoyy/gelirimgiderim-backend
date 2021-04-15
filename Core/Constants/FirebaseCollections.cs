@@ -9,5 +9,7 @@
         public static string UserOperationClaims = "userOperationClaims";
         public static string Rooms = "rooms";
         public static string UserRooms = "userRooms";
+
+        public static string Invitations = "invitations";
     }
 }

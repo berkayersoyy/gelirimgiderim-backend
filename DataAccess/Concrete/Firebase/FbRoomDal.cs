@@ -4,7 +4,6 @@ using Core.Constants;
 using Core.DataAccess.FirebaseDatabase;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
-using Entities.Concrete;
 
 namespace DataAccess.Concrete.Firebase
 {

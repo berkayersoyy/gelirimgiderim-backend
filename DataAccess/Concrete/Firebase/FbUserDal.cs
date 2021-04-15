@@ -6,7 +6,6 @@ using Core.Constants;
 using Core.DataAccess.FirebaseDatabase;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
-using Entities.Concrete;
 using Google.Cloud.Firestore;
 using Newtonsoft.Json;
 using User = Core.Entities.Concrete.User;

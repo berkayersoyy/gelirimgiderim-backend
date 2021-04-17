@@ -23,6 +23,7 @@ namespace DataAccess.Concrete.Firebase
                 where user.Id == userRoom.UserId
                 select new User
                 {
+                    Id = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -39,6 +40,7 @@ namespace DataAccess.Concrete.Firebase
                 where userRoom.RoomId == room.Id
                 select new Room
                 {
+                    Id = room.Id,
                     Name = room.Name,
                 };
             return userRooms.ToList();

@@ -8,6 +8,7 @@ using Core.Utilities.Results;
 using Core.Utilities.RoomInvitation;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 
 namespace Business.Concrete
 {
@@ -31,9 +32,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Room>>(result);//TODO message will be added
         }
 
-        public IDataResult<Room> GetRoom(string roomId)
+        public IDataResult<Room> GetRoom(Room room)
         {
-            var result = _roomDal.GetAll().SingleOrDefault(r => r.Id == roomId);
+            var result = _roomDal.GetAll().SingleOrDefault(r => r.Id == room.Id);
             return new SuccessDataResult<Room>(result);//TODO message will be added
         }
 
@@ -43,18 +44,24 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(result);//TODO message will be added
         }
 
-        public IDataResult<Invitation> CreateInvitation(Room room)
+        public IResult CreateInvitation(Room room)
         {
             var invitationCheck = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == room.Id);
             if (invitationCheck==null)
             {
                 var invitation = _invitationHelper.CreateInvitation(room);
                 _invitationDal.Add(invitation);
-                return new SuccessDataResult<Invitation>(invitation);
+                return new SuccessResult();
                 //TODO Invitation check needed for creating the same one in the list!
             }
-            return new SuccessDataResult<Invitation>(invitationCheck);
+            return new ErrorResult();
             //TODO message will be added
+        }
+
+        public IDataResult<Invitation> GetInvitation(Room room)
+        {
+            var invitation = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == room.Id);
+            return new SuccessDataResult<Invitation>(invitation); //TODO message will be added
         }
 
         public IResult DeleteInvitation(Invitation invitation)
@@ -63,9 +70,9 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IResult JoinRoom(User user,string invitation)
+        public IResult JoinRoom(UserForJoinRoom userForJoinRoom)
         {
-            var invitationCheck = _invitationDal.GetAll().SingleOrDefault(r => r.Code == invitation);
+            var invitationCheck = _invitationDal.GetAll().SingleOrDefault(r => r.Code == userForJoinRoom.Invitation);
             if (invitationCheck==null)
             {
                 return new ErrorResult();
@@ -74,21 +81,26 @@ namespace Business.Concrete
             _userRoomDal.Add(new UserRoom
             {
                 RoomId = invitationCheck.RoomId,
-                UserId = user.Id
+                UserId = userForJoinRoom.User.Id
             });
             return new SuccessResult();//TODO message will be added
         }
 
-        public IResult LeaveRoom(User user,Room room)
+        public IResult LeaveRoom(UserForLeaveRoom userForLeaveRoom)
         {
-            var roomToBeLeaved = _userRoomDal.GetAll().SingleOrDefault(u => u.RoomId == room.Id && u.UserId == user.Id);
+            var roomToBeLeaved = _userRoomDal.GetAll().SingleOrDefault(u => u.RoomId == userForLeaveRoom.Room.Id && u.UserId == userForLeaveRoom.User.Id);
             _userRoomDal.Delete(roomToBeLeaved);
             return new SuccessResult();//TODO message will be added
         }
 
-        public IResult Add(Room room)
+        public IResult Add(UserForCreateRoom userForCreateRoom)
         {
-            _roomDal.Add(room);
+            _roomDal.Add(userForCreateRoom.Room);
+            _userRoomDal.Add(new UserRoom
+            {
+                UserId = userForCreateRoom.User.Id,
+                RoomId = userForCreateRoom.Room.Id
+            });
             return new SuccessResult();//TODO message will be added
 
         }

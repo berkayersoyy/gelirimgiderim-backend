@@ -29,9 +29,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getbyid")]
-        public ActionResult GetTransactionById(string transactionId)
+        public ActionResult GetTransactionById(Transaction transaction)
         {
-            var result = _transactionService.Get(transactionId);
+            var result = _transactionService.Get(transaction);
             if (result.Success)
             {
                 return Ok(result);

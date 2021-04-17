@@ -33,8 +33,8 @@ namespace Business.Concrete
 
         public IDataResult<User> GetByMail(string email)
         {
-            var user = _userDal.GetAllUsersWithFirebase().SingleOrDefault(u => u.Email == email);
-            return new SuccessDataResult<User>(user,Messages.UserFetchedByMail);
+            var userCheck = _userDal.GetAllUsersWithFirebase().SingleOrDefault(u => u.Email == email);
+            return new SuccessDataResult<User>(userCheck,Messages.UserFetchedByMail);
         }
 
         public IDataResult<List<OperationClaim>> GetClaims(User user)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Business.Abstract;
 using Core.Entities.Concrete;
 using Entities.Concrete;
+using Entities.Dtos;
 
 namespace WebAPI.Controllers
 {
@@ -39,9 +40,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public ActionResult Add(Room room)
+        public ActionResult Add(UserForCreateRoom userForCreateRoom)
         {
-            var result = _roomService.Add(room);
+            var result = _roomService.Add(userForCreateRoom);
             if (result.Success)
             {
                 return Ok(result);
@@ -73,6 +74,66 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
-        
+
+        [HttpPost("invitation/create")]
+        public ActionResult CreateInvitation(Room room)
+        {
+            var result = _roomService.CreateInvitation(room);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("invitation/delete")]
+        public ActionResult DeleteInvitation(Invitation invitation)
+        {
+            var result = _roomService.DeleteInvitation(invitation);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("invitation/get")]
+        public ActionResult GetInvitation(Room room)
+        {
+            var result = _roomService.GetInvitation(room);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("joinroom")]
+        public ActionResult JoinRoom(UserForJoinRoom userForJoinRoom)
+        {
+            var result = _roomService.JoinRoom(userForJoinRoom);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            //TODO Guess New DTOs on the way...
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("leaveroom")]
+        public ActionResult LeaveRoom(UserForLeaveRoom userForLeaveRoom)
+        {
+            var result = _roomService.LeaveRoom(userForLeaveRoom);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

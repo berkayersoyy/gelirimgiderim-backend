@@ -24,12 +24,14 @@ namespace Business.Concrete
 
         public IDataResult<List<Transaction>> GetList()
         {
-            return new SuccessDataResult<List<Transaction>>(_transactionDal.GetAll(),Messages.TransactionsFetched);
+            var result = _transactionDal.GetAll();
+            return new SuccessDataResult<List<Transaction>>(result,Messages.TransactionsFetched);
         }
 
-        public IDataResult<Transaction> Get(string transactionId)
+        public IDataResult<Transaction> Get(Transaction transaction)
         {
-            return new SuccessDataResult<Transaction>(_transactionDal.GetAll().SingleOrDefault(t=>t.Id.Equals(transactionId)),Messages.TransactionFetched);
+            var result = _transactionDal.GetAll().SingleOrDefault(t => t.Id.Equals(transaction.Id));
+            return new SuccessDataResult<Transaction>(result,Messages.TransactionFetched);
         }
         [ValidationAspect(typeof(TransactionValidator))]
         public IResult Add(Transaction transaction)

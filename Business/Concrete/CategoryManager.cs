@@ -21,12 +21,14 @@ namespace Business.Concrete
 
         public IDataResult<List<Category>> GetList()
         {
-            return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(),Messages.CategoriesFetched);
+            var result = _categoryDal.GetAll();
+            return new SuccessDataResult<List<Category>>(result,Messages.CategoriesFetched);
         }
 
-        public IDataResult<Category> Get(string categoryId)
+        public IDataResult<Category> Get(Category category)
         {
-            return new SuccessDataResult<Category>(_categoryDal.GetAll().SingleOrDefault(c=>c.Id.Equals(categoryId)),Messages.CategoryFetched);
+            var result = _categoryDal.GetAll().SingleOrDefault(c => c.Id.Equals(category.Id));
+            return new SuccessDataResult<Category>(result,Messages.CategoryFetched);
         }
         [ValidationAspect(typeof(CategoryValidator))]
         public IResult Add(Category category)

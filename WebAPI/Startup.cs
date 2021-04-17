@@ -64,15 +64,17 @@ namespace WebAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.ConfigureCustomExceptionMiddleware();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseCors(builder=>builder.WithOrigins("http://gelirimgiderim.com", "http://www.gelirimgiderim.com").AllowAnyHeader());
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

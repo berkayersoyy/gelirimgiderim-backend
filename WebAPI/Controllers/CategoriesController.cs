@@ -28,9 +28,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getbyid")]
-        public ActionResult GetCategoryById(string categoryId)
+        public ActionResult GetCategoryById(Category category)
         {
-            var result = _categoryService.Get(categoryId);
+            var result = _categoryService.Get(category);
             if (result.Success)
             {
                 return Ok(result);

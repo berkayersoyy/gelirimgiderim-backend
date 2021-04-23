@@ -6,6 +6,7 @@ namespace Entities.Concrete
     [FirestoreData]
     public class Category:IEntity
     {
+
         [FirestoreProperty]
         public string Id { get; set; }
         [FirestoreProperty]

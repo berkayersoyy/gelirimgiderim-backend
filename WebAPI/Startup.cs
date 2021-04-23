@@ -66,11 +66,11 @@ namespace WebAPI
 
             app.ConfigureCustomExceptionMiddleware();
 
+            app.UseCors(builder => builder.WithOrigins("http://gelirimgiderim.com", "http://www.gelirimgiderim.com").AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseCors(builder=>builder.WithOrigins("http://gelirimgiderim.com", "http://www.gelirimgiderim.com").AllowAnyHeader());
 
             app.UseAuthentication();
 

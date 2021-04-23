@@ -1,4 +1,4 @@
-﻿  
+  
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -16,11 +16,11 @@ namespace Core.Extensions
             _next = next;
         }
 
-        public async Task InvokeTask(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             try
             {
-                await _next.Invoke(httpContext);
+                await _next(httpContext);
             }
             catch (Exception e)
             {

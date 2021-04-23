@@ -1,4 +1,4 @@
-﻿
+
 using Microsoft.AspNetCore.Mvc;
 using Business.Abstract;
 using Core.Entities.Concrete;
@@ -19,9 +19,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public ActionResult GetUserRooms(User user)
+        public ActionResult GetUserRooms()
         {
-            var result = _roomService.GetUserRooms(user);
+            var result = _roomService.GetUserRooms();
             if (result.Success)
             {
                 return Ok(result);
@@ -40,9 +40,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public ActionResult Add(UserForCreateRoom userForCreateRoom)
+        public ActionResult Add(Room room)
         {
-            var result = _roomService.Add(userForCreateRoom);
+            var result = _roomService.Add(room);
             if (result.Success)
             {
                 return Ok(result);
@@ -112,22 +112,21 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("joinroom")]
-        public ActionResult JoinRoom(UserForJoinRoom userForJoinRoom)
+        public ActionResult JoinRoom(string invitation)
         {
-            var result = _roomService.JoinRoom(userForJoinRoom);
+            var result = _roomService.JoinRoom(invitation);
             if (result.Success)
             {
                 return Ok(result);
             }
-            //TODO Guess New DTOs on the way...
 
             return BadRequest(result);
         }
 
         [HttpPost("leaveroom")]
-        public ActionResult LeaveRoom(UserForLeaveRoom userForLeaveRoom)
+        public ActionResult LeaveRoom(Room room)
         {
-            var result = _roomService.LeaveRoom(userForLeaveRoom);
+            var result = _roomService.LeaveRoom(room);
             if (result.Success)
             {
                 return Ok(result);

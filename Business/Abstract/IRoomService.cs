@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Entities.Dtos;
@@ -9,14 +9,14 @@ namespace Business.Abstract
     {
         IDataResult<List<Room>> GetList();
         IDataResult<Room> GetRoom(Room room);
-        IDataResult<List<User>> GetUsersExistInRoom(Room room);
-        IDataResult<List<Room>> GetUserRooms(User user);
+        IDataResult<List<UserToList>> GetUsersExistInRoom(Room room);
+        IDataResult<List<Room>> GetUserRooms();
         IResult CreateInvitation(Room room);
         IDataResult<Invitation> GetInvitation(Room room);
         IResult DeleteInvitation(Invitation invitation);
-        IResult LeaveRoom(UserForLeaveRoom userForLeaveRoom);
-        IResult JoinRoom(UserForJoinRoom userForJoinRoom);
-        IResult Add(UserForCreateRoom userForCreateRoom);
+        IResult LeaveRoom(Room room);
+        IResult JoinRoom(string invitation);
+        IResult Add(Room room);
         IResult Delete(Room room);
         IResult Update(Room room);
     }

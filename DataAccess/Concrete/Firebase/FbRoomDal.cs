@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Constants;
 using Core.DataAccess.FirebaseDatabase;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
+using Entities.Dtos;
 
 namespace DataAccess.Concrete.Firebase
 {
@@ -16,19 +17,17 @@ namespace DataAccess.Concrete.Firebase
             _userDal = userDal;
             _userRoomDal = userRoomDal;
         }
-        public List<User> GetUsersExistInRoom(Room room)
+        public List<UserToList> GetUsersExistInRoom(Room room)
         {
             var users = from userRoom in _userRoomDal.GetAll()
                 join user in _userDal.GetAllUsersWithFirebase() on userRoom.RoomId equals room.Id
                 where user.Id == userRoom.UserId
-                select new User
+                select new UserToList
                 {
                     Id = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    PasswordHash = user.PasswordHash,
-                    PasswordSalt = user.PasswordSalt,
                     Status = true,
                 };
             return users.ToList();

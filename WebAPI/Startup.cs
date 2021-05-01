@@ -29,7 +29,7 @@ namespace WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin",
-                    builder=> builder.WithOrigins("http://gelirimgiderim.com", "http://www.gelirimgiderim.com"));
+                    builder=> builder.WithOrigins("http://localhost:44386"));
             });
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -66,7 +66,7 @@ namespace WebAPI
 
             app.ConfigureCustomExceptionMiddleware();
 
-            app.UseCors(builder => builder.WithOrigins("http://gelirimgiderim.com", "http://www.gelirimgiderim.com").AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:44386").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

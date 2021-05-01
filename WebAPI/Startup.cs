@@ -27,6 +27,7 @@ namespace WebAPI
         {
             services.AddControllers();
             services.AddCors();
+            services.AddApplicationInsightsTelemetry();
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 

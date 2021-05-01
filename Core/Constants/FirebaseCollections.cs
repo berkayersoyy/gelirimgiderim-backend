@@ -1,4 +1,4 @@
-﻿namespace Core.Constants
+namespace Core.Constants
 {
     public static class FirebaseCollections
     {
@@ -9,7 +9,8 @@
         public static string UserOperationClaims = "userOperationClaims";
         public static string Rooms = "rooms";
         public static string UserRooms = "userRooms";
-
         public static string Invitations = "invitations";
+        public static string Claims = "claims";
+        public static string UserClaims = "userClaims";
     }
 }

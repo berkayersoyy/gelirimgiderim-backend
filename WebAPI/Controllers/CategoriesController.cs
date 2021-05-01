@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Business.Abstract;
 using Entities.Concrete;
 
@@ -28,9 +28,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getbyid")]
-        public ActionResult GetCategoryById(Category category)
+        public ActionResult GetCategoryById(string categoryId)
         {
-            var result = _categoryService.Get(category);
+            var result = _categoryService.Get(categoryId);
             if (result.Success)
             {
                 return Ok(result);

@@ -1,4 +1,4 @@
-﻿
+
 using Microsoft.AspNetCore.Mvc;
 using Business.Abstract;
 using Core.Entities.Concrete;
@@ -29,9 +29,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getbyid")]
-        public ActionResult GetTransactionById(Transaction transaction)
+        public ActionResult GetTransactionById(string transactionId)
         {
-            var result = _transactionService.Get(transaction);
+            var result = _transactionService.Get(transactionId);
             if (result.Success)
             {
                 return Ok(result);

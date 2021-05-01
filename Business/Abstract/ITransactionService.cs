@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Entities.Concrete;
@@ -8,7 +8,7 @@ namespace Business.Abstract
     public interface ITransactionService
     {
         IDataResult<List<Transaction>> GetList();
-        IDataResult<Transaction> Get(Transaction transaction);
+        IDataResult<Transaction> Get(string id);
         IDataResult<List<Transaction>> GetTransactionsForRoom(Room room);
         IResult Add(Transaction transaction);
         IResult Update(Transaction transaction);

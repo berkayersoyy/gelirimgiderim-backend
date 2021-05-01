@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Core.Entities.Concrete;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,6 +8,7 @@ using Core.Extensions;
 using Core.Utilities.Security.Encryption;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Claim = System.Security.Claims.Claim;
 
 namespace Core.Utilities.Security.Jwt
 {

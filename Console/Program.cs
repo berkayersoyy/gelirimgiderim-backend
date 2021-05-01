@@ -1,4 +1,8 @@
-﻿using System;
+using System;
+using System.Threading;
+using Core.Entities.Concrete;
+using DataAccess.Concrete.Firebase;
+using Google.Api.Gax;
 
 namespace Console
 {
@@ -9,4 +13,5 @@ namespace Console
           
         }
 
+    }
 }

@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections.Generic;
 using System.Linq;
 using Business.Abstract;
@@ -28,9 +28,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Transaction>>(result,Messages.TransactionsFetched);
         }
 
-        public IDataResult<Transaction> Get(Transaction transaction)
+        public IDataResult<Transaction> Get(string id)
         {
-            var result = _transactionDal.GetAll().SingleOrDefault(t => t.Id.Equals(transaction.Id));
+            var result = _transactionDal.GetAll().SingleOrDefault(t => t.Id.Equals(id));
             return new SuccessDataResult<Transaction>(result,Messages.TransactionFetched);
         }
         [ValidationAspect(typeof(TransactionValidator))]

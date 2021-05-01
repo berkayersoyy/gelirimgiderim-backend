@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Business.Abstract;
 using Business.Constants;
@@ -25,9 +25,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Category>>(result,Messages.CategoriesFetched);
         }
 
-        public IDataResult<Category> Get(Category category)
+        public IDataResult<Category> Get(string id)
         {
-            var result = _categoryDal.GetAll().SingleOrDefault(c => c.Id.Equals(category.Id));
+            var result = _categoryDal.GetAll().SingleOrDefault(c => c.Id.Equals(id));
             return new SuccessDataResult<Category>(result,Messages.CategoryFetched);
         }
         [ValidationAspect(typeof(CategoryValidator))]

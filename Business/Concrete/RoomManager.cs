@@ -1,16 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using Business.Abstract;
 using Business.Constants;
-using Castle.Core.Internal;
 using Core.Entities.Concrete;
-using Core.Utilities.IoC;
 using Core.Utilities.Results;
 using Core.Utilities.RoomInvitation;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Utilities.IoC;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +23,8 @@ namespace Business.Concrete
 
     private IUserService _userService;
 
+    private IHttpContextAccessor _httpContextAccessor;
+
     public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService)
     {
       _roomDal = roomDal;
@@ -32,6 +32,7 @@ namespace Business.Concrete
       _invitationHelper = invitationHelper;
       _userRoomDal = userRoomDal;
       _userService = userService;
+      _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
     }
     public IDataResult<List<Room>> GetList()
     {
@@ -39,9 +40,9 @@ namespace Business.Concrete
       return new SuccessDataResult<List<Room>>(result, Messages.RoomsFetched);
     }
 
-    public IDataResult<Room> GetRoom(Room room)
+    public IDataResult<Room> Get(string id)
     {
-      var result = _roomDal.GetAll().SingleOrDefault(r => r.Id == room.Id);
+      var result = _roomDal.GetAll().SingleOrDefault(r => r.Id.Equals(id));
       return new SuccessDataResult<Room>(result, Messages.RoomFetched);
     }
 
@@ -76,8 +77,15 @@ namespace Business.Concrete
       return new SuccessResult(Messages.InvitationDeleted);
     }
 
+    public IResult SetCurrentRoom(string roomId)
+    {
+      _httpContextAccessor.HttpContext.Items.Add("currentRoom",roomId);
+      return new SuccessResult(); //TODO Message will be added.
+    }
+
     public IResult JoinRoom(string invitation)
     {
+      //TODO room capasity arrangements.
       var userCheck = _userService.GetCurrentUser();
       if (userCheck.Data != null)
       {

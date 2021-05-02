@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Core.Utilities.Results;
 
 namespace WebAPI.Controllers
 {
@@ -14,7 +11,7 @@ namespace WebAPI.Controllers
       [HttpGet("get")]
       public IActionResult Example()
       {
-        return Ok("IT WORKS!");
+        return Ok(new SuccessDataResult<string>("YAVRUSSS"));
       }
     }
 }

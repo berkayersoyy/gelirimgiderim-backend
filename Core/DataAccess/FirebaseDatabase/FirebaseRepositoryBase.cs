@@ -14,6 +14,10 @@ namespace Core.DataAccess.FirebaseDatabase
         private string _collectionName;
         private FirestoreDb _firestoreDb;
 
+        /// <summary>
+        /// Firebase Repository for doing CRUD operations with entities
+        /// </summary>
+        /// <param name="collectionName"></param>
         public FirebaseRepositoryBase(string collectionName)
         {
             string filePath = FirebasePaths.FilePath;
@@ -21,6 +25,10 @@ namespace Core.DataAccess.FirebaseDatabase
             _firestoreDb = FirestoreDb.Create(FirebasePaths.ProjectId);
             _collectionName = collectionName;
         }
+        /// <summary>
+        /// Add entity to firebase database.
+        /// </summary>
+        /// <param name="entity"></param>
         public void Add(T entity)
         {
             CollectionReference collectionReference = _firestoreDb.Collection(_collectionName);
@@ -28,14 +36,21 @@ namespace Core.DataAccess.FirebaseDatabase
             entity.Id = documentReference.Id;
             documentReference.SetAsync(entity, SetOptions.MergeAll).GetAwaiter().GetResult();
         }
-
+        /// <summary>
+        /// Deletes entity from firebase database.
+        /// </summary>
+        /// <param name="entity"></param>
         public void Delete(T entity)
         {
             DocumentReference documentReference = _firestoreDb.Collection(_collectionName).Document(entity.Id);
             documentReference.DeleteAsync().GetAwaiter().GetResult();
         }
 
-        
+        /// <summary>
+        /// Fetches the entity from firebase database.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns><typeparam name="T"></typeparam></returns>
         public T Get(T entity)
         {
             DocumentReference documentReference = _firestoreDb.Collection(_collectionName).Document(entity.Id);
@@ -48,22 +63,31 @@ namespace Core.DataAccess.FirebaseDatabase
             else
             {
                 return null;
-                // RESULT REFACTORING YAPILACAK
             }
         }
-
+        /// <summary>
+        /// Fetches the list of entities from firebase database.
+        /// </summary>
+        /// <returns><typeparam name="T"></typeparam>List of T</returns>
         public List<T> GetAll()
         {
             Query query = _firestoreDb.Collection(_collectionName);
             return QuerySnapshots(query);
         }
-
+        /// <summary>
+        /// Updates the entity to firebase database.
+        /// </summary>
+        /// <param name="entity"></param>
         public void Update(T entity)
         {
             DocumentReference documentReference = _firestoreDb.Collection(_collectionName).Document(entity.Id);
             documentReference.SetAsync(entity,SetOptions.MergeAll).GetAwaiter().GetResult();
         }
-
+        /// <summary>
+        /// Queries the firebase database for data which want to be fetched.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns><typeparam name="T">List of T</typeparam></returns>
         public List<T> QuerySnapshots(Query query)
         {
             QuerySnapshot snapshot = query.GetSnapshotAsync().GetAwaiter().GetResult();

@@ -12,6 +12,10 @@ namespace Core.Aspects.Autofac.Validation
     {
         private Type _validatorType;
 
+        /// <summary>
+        /// Validation aspect for validate entities.
+        /// </summary>
+        /// <param name="validatorType"></param>
         public ValidationAspect(Type validatorType)
         {
             if (!typeof(IValidator).IsAssignableFrom(validatorType))
@@ -20,7 +24,10 @@ namespace Core.Aspects.Autofac.Validation
             }
             _validatorType = validatorType;
         }
-
+        /// <summary>
+        /// Validates the entity if invalid throws error.
+        /// </summary>
+        /// <param name="invocation"></param>
         public override void OnBefore(IInvocation invocation)
         {
             var validator = (IValidator)Activator.CreateInstance(_validatorType);

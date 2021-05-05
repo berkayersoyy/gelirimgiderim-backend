@@ -8,6 +8,10 @@ namespace Core.DependencyResolvers
 {
     public class CoreModule:ICoreModule
     {
+        /// <summary>
+        /// Core IOC Container with AutoFac.
+        /// </summary>
+        /// <param name="services"></param>
         public void Load(IServiceCollection services)
         {
             services.AddMemoryCache();

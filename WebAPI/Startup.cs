@@ -26,7 +26,8 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddCors();
+            services.AddCors(options=>options.AddPolicy("AllowOrigin",
+                builder=>builder.WithOrigins("http://gelirimgiderim.me", "http://www.gelirimgiderim.me", "http://localhost:4200")));
             services.AddApplicationInsightsTelemetry(Configuration);
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -63,7 +64,7 @@ namespace WebAPI
 
             app.ConfigureCustomExceptionMiddleware();
 
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(builder => builder.WithOrigins("http://gelirimgiderim.me", "http://www.gelirimgiderim.me", "http://localhost:4200").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

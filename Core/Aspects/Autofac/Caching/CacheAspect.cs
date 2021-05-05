@@ -12,12 +12,19 @@ namespace Core.Aspects.Autofac.Caching
         private int _duration;
         private ICacheManager _cacheManager;
 
+        /// <summary>
+        /// Cache Aspect for caching.
+        /// </summary>
+        /// <param name="duration">Cache duration, default is 60 minute.</param>
         public CacheAspect(int duration=60)
         {
             _duration = duration;
             _cacheManager = ServiceTool.ServiceProvider.GetService<ICacheManager>();
         }
-
+        /// <summary>
+        /// Gets the method and check if value exists in memory and returns.
+        /// </summary>
+        /// <param name="invocation"></param>
         public override void Intercept(IInvocation invocation)
         {
             var methodName = string.Format($"{invocation.Method.ReflectedType.FullName}.{invocation.Method.Name}");

@@ -24,7 +24,6 @@ namespace Business.Aspects.Autofac
       _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
       _claimService = ServiceTool.ServiceProvider.GetService<IClaimService>();
       _roomService = ServiceTool.ServiceProvider.GetService<IRoomService>();
-      //TODO setcurrentroom need to be added to room service
     }
 
     public override void OnBefore(IInvocation invocation)

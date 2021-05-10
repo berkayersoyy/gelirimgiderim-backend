@@ -31,7 +31,6 @@ namespace Core.DataAccess.FirebaseStorage
             var stream = new MemoryStream(File.ReadAllBytes(path));
             var auth = new FirebaseAuthProvider(new FirebaseConfig(FirebasePaths.ApiKey));
             var login = await auth.SignInWithEmailAndPasswordAsync(email, password);
-            var cancellation = new CancellationToken();
             var result = new Firebase.Storage.FirebaseStorage(FirebasePaths.AppBucket)
                 .Child(collection)
                 .Child(FileReader.ReadFileName(path));

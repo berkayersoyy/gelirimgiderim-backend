@@ -11,6 +11,7 @@ namespace Entities.Concrete
         public string Id { get; set; }
         [FirestoreProperty]
         public string RoomId { get; set; }
+        [FirestoreProperty] public string UserId { get; set; }
         [FirestoreProperty]
         public string CategoryId { get; set; }
         [FirestoreProperty]

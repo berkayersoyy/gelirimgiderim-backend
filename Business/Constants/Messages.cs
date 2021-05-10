@@ -1,4 +1,4 @@
-using System;
+
 
 namespace Business.Constants
 {
@@ -20,6 +20,7 @@ namespace Business.Constants
     public static string UserAdded = "User added.";
     public static string UserDeleted = "User deleted.";
 
+    public static string UserAlreadyRegistered = "User already registered with this email.";
     public static string UserRegistered = "User registered.";
     public static string UserNotFound = "User not found.";
     public static string WrongPassword = "Wrong password.";
@@ -44,6 +45,7 @@ namespace Business.Constants
     public static string UserFetchedById = "User fetched by id.";
     public static string CurrentUserFetched = "Current user fetched.";
 
+        //TODO Localization need to be added.
 
 
     public static string AuthorizationDenied = "Authorization denied.";

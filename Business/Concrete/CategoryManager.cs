@@ -25,9 +25,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Category>>(result,Messages.CategoriesFetched);
         }
 
-        public IDataResult<Category> Get(string id)
+        public IDataResult<Category> Get(string categoryId)
         {
-            var result = _categoryDal.GetAll().SingleOrDefault(c => c.Id.Equals(id));
+            var result = _categoryDal.GetAll().SingleOrDefault(c => c.Id.Equals(categoryId));
             return new SuccessDataResult<Category>(result,Messages.CategoryFetched);
         }
         [ValidationAspect(typeof(CategoryValidator))]

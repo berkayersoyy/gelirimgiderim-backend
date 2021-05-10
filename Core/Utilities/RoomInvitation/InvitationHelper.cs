@@ -16,7 +16,7 @@ namespace Core.Utilities.RoomInvitation
         {
             return new Invitation
             {
-                Code = _generator.Generate(),
+                InvitationCode = _generator.Generate(),
                 RoomId = room.Id
             };
         }

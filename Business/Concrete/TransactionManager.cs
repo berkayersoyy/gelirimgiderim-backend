@@ -28,9 +28,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Transaction>>(result,Messages.TransactionsFetched);
         }
 
-        public IDataResult<Transaction> Get(string id)
+        public IDataResult<Transaction> Get(string transactionId)
         {
-            var result = _transactionDal.GetAll().SingleOrDefault(t => t.Id.Equals(id));
+            var result = _transactionDal.GetAll().SingleOrDefault(t => t.Id.Equals(transactionId));
             return new SuccessDataResult<Transaction>(result,Messages.TransactionFetched);
         }
         [ValidationAspect(typeof(TransactionValidator))]

@@ -41,7 +41,7 @@ namespace Business.Concrete
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
-            if (userToCheck==null)
+            if (userToCheck.Data==null)
             {
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
@@ -55,9 +55,9 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCheck.Data,Messages.SuccessfulLogin); 
         }
 
-        public IResult UserExists(string email)
+        public IResult UserExists(User user)
         {
-            if (_userService.GetByMail(email).Data!=null)
+            if (_userService.GetByMail(user.Email).Data!=null)
             {
                 return new ErrorResult(Messages.UserExists);
             }
@@ -68,7 +68,8 @@ namespace Business.Concrete
         {
             var claims = _userService.GetClaims(user);
             var accessToken = _tokenHelper.CreateToken(user, claims.Data);
-            return new SuccessDataResult<AccessToken>(accessToken,Messages.AccessTokenCreated);
+            return new SuccessDataResult<AccessToken>(accessToken,Messages.SuccessfulLogin);
+            //TODO remove access token on client side after expire
         }
     }
 }

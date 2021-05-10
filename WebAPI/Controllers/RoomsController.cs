@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Business.Abstract;
 using Core.Entities.Concrete;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
 
@@ -13,11 +14,23 @@ namespace WebAPI.Controllers
     {
         private IRoomService _roomService;
 
+
         public RoomsController(IRoomService roomService)
         {
             _roomService = roomService;
         }
 
+        [HttpGet("get")]
+        public ActionResult Get(RoomForGetByIdDto room)
+        {
+            var result = _roomService.Get(room.Id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
         [HttpGet("getall")]
         public ActionResult GetUserRooms()
         {
@@ -75,7 +88,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("invitation/create")]
+        [HttpPost("createinvitation")]
         public ActionResult CreateInvitation(Room room)
         {
             var result = _roomService.CreateInvitation(room);
@@ -87,7 +100,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("invitation/delete")]
+        [HttpPost("deleteinvitation")]
         public ActionResult DeleteInvitation(Invitation invitation)
         {
             var result = _roomService.DeleteInvitation(invitation);
@@ -99,7 +112,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("invitation/get")]
+        [HttpGet("getinvitation")]
         public ActionResult GetInvitation(Room room)
         {
             var result = _roomService.GetInvitation(room);
@@ -112,9 +125,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("joinroom")]
-        public ActionResult JoinRoom(string invitation)
+        public ActionResult JoinRoom(InvitationForJoinRoomDto invitation)
         {
-            var result = _roomService.JoinRoom(invitation);
+            var result = _roomService.JoinRoom(invitation.InvitationCode);
             if (result.Success)
             {
                 return Ok(result);
@@ -134,5 +147,6 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
     }
 }

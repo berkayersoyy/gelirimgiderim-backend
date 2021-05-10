@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Constants;
+using Core.Entities.Concrete;
 using Entities.Dtos;
 
 namespace WebAPI.Controllers
@@ -22,16 +24,22 @@ namespace WebAPI.Controllers
         [HttpPost("register")]
         public ActionResult Register(UserForRegisterDto userForRegisterDto)
         {
-            var userExists = _authService.UserExists(userForRegisterDto.Email);
+            var userExists = _authService.UserExists(new User{Email = userForRegisterDto.Email });
             if (!userExists.Success)
             {
-                return BadRequest(userForRegisterDto);
+                return BadRequest(Messages.UserAlreadyRegistered);
             }
 
             var result = _authService.Register(userForRegisterDto);
-            if (result.Success)
+            if (!result.Success)
             {
-                return Ok(result);
+                return BadRequest(result);
+            }
+
+            var tokenResult = _authService.CreateAccessToken(result.Data);
+            if (tokenResult.Success)
+            {
+                return Ok(tokenResult);
             }
 
             return BadRequest(result);
@@ -54,5 +62,6 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
     }
 }

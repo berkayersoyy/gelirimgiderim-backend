@@ -8,7 +8,7 @@ namespace DataAccess.Abstract
 {
     public interface IRoomDal:IEntityRepository<Room>
     {
-        public List<UserToList> GetUsersExistInRoom(Room room);
+        public List<User> GetUsersExistInRoom(Room room);
         public List<Room> GetUserRooms(User user);
 
     }

@@ -27,10 +27,10 @@ namespace Business.Concrete
       return new SuccessDataResult<List<Claim>>(claims); //TODO Message will be added
     }
 
-    public IDataResult<Claim> Get(string id)
+    public IDataResult<Claim> Get(Claim claim)
     {
-      var claim = _claimDal.GetAll().SingleOrDefault(c => c.Id == id);
-      return new SuccessDataResult<Claim>(claim); //TODO Message will be added
+      var claimCheck = _claimDal.GetAll().SingleOrDefault(c => c.Id == claim.Id);
+      return new SuccessDataResult<Claim>(claimCheck); //TODO Message will be added
     }
 
     public IResult Add(Claim claim)

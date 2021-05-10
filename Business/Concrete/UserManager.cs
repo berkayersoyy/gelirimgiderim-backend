@@ -8,6 +8,7 @@ using Core.Entities.Concrete;
 using Core.Utilities.IoC;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -57,7 +58,8 @@ namespace Business.Concrete
 
         public IDataResult<User> GetCurrentUser()
         {
-          var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //TODO delete jwt when expires
+          string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
           var userCheck = GetById(userId);
           return new SuccessDataResult<User>(userCheck.Data,Messages.CurrentUserFetched); 
         }

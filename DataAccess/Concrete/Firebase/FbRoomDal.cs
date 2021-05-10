@@ -17,17 +17,19 @@ namespace DataAccess.Concrete.Firebase
             _userDal = userDal;
             _userRoomDal = userRoomDal;
         }
-        public List<UserToList> GetUsersExistInRoom(Room room)
+        public List<User> GetUsersExistInRoom(Room room)
         {
             var users = from userRoom in _userRoomDal.GetAll()
                 join user in _userDal.GetAllUsersWithFirebase() on userRoom.RoomId equals room.Id
                 where user.Id == userRoom.UserId
-                select new UserToList
+                select new User
                 {
                     Id = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
+                    PasswordHash = user.PasswordHash,
+                    PasswordSalt = user.PasswordSalt,
                     Status = true,
                 };
             return users.ToList();

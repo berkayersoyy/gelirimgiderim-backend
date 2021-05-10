@@ -11,7 +11,8 @@ namespace Core.Entities.Concrete
         [FirestoreProperty]
         public string RoomId { get; set; }
         [FirestoreProperty]
-        public string Code { get; set; }
+        public string InvitationCode { get; set; }
+
         ///TODO Expire time will be added
     }
 }

@@ -9,7 +9,7 @@ namespace Business.Abstract
     {
         IDataResult<List<Transaction>> GetList();
         IDataResult<Transaction> Get(string id);
-        IDataResult<List<Transaction>> GetTransactionsForRoom(Room room);
+        IDataResult<List<Transaction>> GetTransactionsForRoom(string roomId);
         IResult Add(Transaction transaction);
         IResult Update(Transaction transaction);
         IResult Delete(Transaction transaction);

@@ -51,22 +51,22 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(result, Messages.UsersExistInRoomFetched);
         }
 
-        public IResult CreateInvitation(Room room)
+        public IDataResult<Invitation> CreateInvitation(Room room)
         {
             var invitationCheck = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == room.Id);
             if (invitationCheck == null)
             {
-                var invitation = _invitationHelper.CreateInvitation(room);
+                var invitation = _invitationHelper.CreateInvitation(room.Id);
                 _invitationDal.Add(invitation);
-                return new SuccessResult(Messages.InvitationCreated);
+                return new SuccessDataResult<Invitation>(invitation,Messages.InvitationCreated);
                 //TODO Invitation check needed for creating the same one in the list!
             }
-            return new ErrorResult(Messages.InvitationExists);
+            return new ErrorDataResult<Invitation>(Messages.InvitationExists);
         }
 
-        public IDataResult<Invitation> GetInvitation(Room room)
+        public IDataResult<Invitation> GetInvitation(string roomId)
         {
-            var invitation = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == room.Id);
+            var invitation = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == roomId);
             return new SuccessDataResult<Invitation>(invitation, Messages.InvitationFetched);
         }
 
@@ -143,13 +143,13 @@ namespace Business.Concrete
         public IDataResult<List<Room>> GetUserRooms()
         {
             var userCheck = _userService.GetCurrentUser();
-            if (userCheck.Data != null)
+            if (userCheck.Data == null)
             {
-                var result = _roomDal.GetUserRooms(userCheck.Data);
-                return new SuccessDataResult<List<Room>>(result, Messages.UserRoomsFetched);
+                return new ErrorDataResult<List<Room>>(Messages.UserNotFound);
             }
-            return new ErrorDataResult<List<Room>>(Messages.UserNotFound);
-
+            var result = _roomDal.GetUserRooms(userCheck.Data);
+            return new SuccessDataResult<List<Room>>(result, Messages.UserRoomsFetched);
+  
         }
     }
 }

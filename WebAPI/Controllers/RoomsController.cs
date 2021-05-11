@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Business.Abstract;
 using Core.Entities.Concrete;
-using DataAccess.Abstract;
-using Entities.Concrete;
 using Entities.Dtos;
 
 namespace WebAPI.Controllers
@@ -31,7 +29,7 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
-        [HttpGet("getall")]
+        [HttpGet("getuserrooms")]
         public ActionResult GetUserRooms()
         {
             var result = _roomService.GetUserRooms();
@@ -113,7 +111,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getinvitation")]
-        public ActionResult GetInvitation(Room room)
+        public ActionResult GetInvitation(string room)
         {
             var result = _roomService.GetInvitation(room);
             if (result.Success)

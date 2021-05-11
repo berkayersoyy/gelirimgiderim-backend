@@ -11,8 +11,8 @@ namespace Business.Abstract
         IDataResult<Room> Get(string roomId);
         IDataResult<List<User>> GetUsersExistInRoom(Room room);
         IDataResult<List<Room>> GetUserRooms();
-        IResult CreateInvitation(Room room);
-        IDataResult<Invitation> GetInvitation(Room room);
+        IDataResult<Invitation> CreateInvitation(Room room);
+        IDataResult<Invitation> GetInvitation(string roomId);
         IResult DeleteInvitation(Invitation invitation);
         IResult LeaveRoom(Room room);
         IResult JoinRoom(string invitation);

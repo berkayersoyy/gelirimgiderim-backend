@@ -4,6 +4,6 @@ namespace Core.Utilities.RoomInvitation
 {
     public interface IInvitationHelper
     {
-        public Invitation CreateInvitation(Room room);
+        public Invitation CreateInvitation(string roomId);
     }
 }

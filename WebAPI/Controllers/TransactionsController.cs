@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
-        [HttpGet("getbyid")]
+        [HttpGet("get")]
         public ActionResult GetTransactionById(TransactionForGetByIdDto transaction)
         {
             var result = _transactionService.Get(transaction.Id);
@@ -75,7 +75,7 @@ namespace WebAPI.Controllers
           
         }
         [HttpGet("getallforroom")]
-        public ActionResult GetListForRoom(Room room)
+        public ActionResult GetListForRoom(string room)
         {
             var result = _transactionService.GetTransactionsForRoom(room);
             if (result.Success)

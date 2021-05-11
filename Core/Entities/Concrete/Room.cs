@@ -11,6 +11,6 @@ namespace Core.Entities.Concrete
         [FirestoreProperty]
         public string Name { get; set; }
         [FirestoreProperty]
-        public string? Description { get; set; }
+        public string Description { get; set; }
     }
 }

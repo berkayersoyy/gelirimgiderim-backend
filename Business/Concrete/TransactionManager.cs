@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Business.Abstract;
@@ -16,10 +17,12 @@ namespace Business.Concrete
     public class TransactionManager:ITransactionService
     {
         private ITransactionDal _transactionDal;
+        private IUserService _userService;
 
-        public TransactionManager(ITransactionDal fbTransactionDal)
+        public TransactionManager(ITransactionDal fbTransactionDal, IUserService userService)
         {
             _transactionDal = fbTransactionDal;
+            _userService = userService;
         }
 
         public IDataResult<List<Transaction>> GetList()
@@ -36,8 +39,11 @@ namespace Business.Concrete
         [ValidationAspect(typeof(TransactionValidator))]
         public IResult Add(Transaction transaction)
         {
-            transaction.Date = DateTime.Now.ToString();
-             _transactionDal.Add(transaction);
+            transaction.Date = DateTime.UtcNow
+                .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+                .TotalMilliseconds;
+            transaction.UserId = _userService.GetCurrentUser().Data.Id;
+            _transactionDal.Add(transaction);
             return new SuccessResult(Messages.TransactionAdded);
         }
 
@@ -53,9 +59,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.TransactionDeleted);
         }
 
-        public IDataResult<List<Transaction>> GetTransactionsForRoom(Room room)
+        public IDataResult<List<Transaction>> GetTransactionsForRoom(string roomId)
         {
-            var result = _transactionDal.GetAll().Where(t => t.RoomId == room.Id).ToList();
+            var result = _transactionDal.GetAll().Where(t => t.RoomId == roomId).ToList();
             return new SuccessDataResult<List<Transaction>>(result, Messages.TransactionsFetched);
         }
     }

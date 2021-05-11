@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Core.Entities.Abstract;
 using Google.Cloud.Firestore;
 
@@ -11,15 +12,18 @@ namespace Entities.Concrete
         public string Id { get; set; }
         [FirestoreProperty]
         public string RoomId { get; set; }
-        [FirestoreProperty] public string UserId { get; set; }
+        [FirestoreProperty] 
+        public string UserId { get; set; }
         [FirestoreProperty]
         public string CategoryId { get; set; }
+        [FirestoreProperty] 
+        public string Title { get; set; }
         [FirestoreProperty]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [FirestoreProperty]
         public float Amount { get; set; }
 
         [FirestoreProperty]
-        public string Date { get; set; }
+        public double Date { get; set; }
     }
 }

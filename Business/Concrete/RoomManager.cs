@@ -22,16 +22,18 @@ namespace Business.Concrete
         private IInvitationDal _invitationDal;
         private IInvitationHelper _invitationHelper;
 
+        private ITransactionService _transactionService;
         private IUserService _userService;
 
 
-        public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService)
+        public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService, ITransactionService transactionService)
         {
             _roomDal = roomDal;
             _invitationDal = invitationDal;
             _invitationHelper = invitationHelper;
             _userRoomDal = userRoomDal;
             _userService = userService;
+            _transactionService = transactionService;
         }
         public IDataResult<List<Room>> GetList()
         {
@@ -132,6 +134,8 @@ namespace Business.Concrete
             _roomDal.Delete(room);
             var users = _userRoomDal.GetAll().Where(u => u.RoomId == room.Id).ToList();
             users.ForEach(u => _userRoomDal.Delete(u));
+            _transactionService.GetTransactionsForRoom(room.Id).Data
+                .ForEach(x => _transactionService.Delete(x));
             return new SuccessResult(Messages.RoomDeleted);
         }
 

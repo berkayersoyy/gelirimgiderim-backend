@@ -6,12 +6,12 @@ namespace Business.Abstract
 {
   public interface IClaimService
   {
-    IDataResult<List<Claim>> GetList(Room room);
-    IDataResult<Claim> Get(Claim claim);
+    IDataResult<List<Claim>> GetList(string room);
+    IDataResult<Claim> Get(string claim);
     IResult Add(Claim claim);
     IResult Delete(Claim claim);
     IResult Update(Claim claim);
-    IDataResult<List<Claim>> GetUsersClaims(Room room);
+    IDataResult<List<Claim>> GetUsersClaims(string room);
     IResult AddClaimToUser(UserClaim userClaim);
     IResult DeleteClaimFromUser(UserClaim userClaim);
 

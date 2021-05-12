@@ -14,16 +14,40 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet("currentUser")]
+        [HttpGet("currentuser")]
         public ActionResult GetCurrentUser()
         {
-            var user = _userService.GetCurrentUser();
-            if (user.Success)
+            var result = _userService.GetCurrentUser();
+            if (result.Success)
             {
-                return Ok(user);
+                return Ok(result);
             }
 
-            return BadRequest(user);
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyid")]
+        public ActionResult GetUserById(string id)
+        {
+            var result = _userService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyemail")]
+        public ActionResult GetUserByEmail(string email)
+        {
+            var result = _userService.GetByMail(email);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
     }
 }

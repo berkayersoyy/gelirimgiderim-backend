@@ -21,15 +21,15 @@ namespace Business.Concrete
       _userService = userService;
     }
 
-    public IDataResult<List<Claim>> GetList(Room room)
+    public IDataResult<List<Claim>> GetList(string room)
     {
-      var claims = _claimDal.GetAll().Where(c => c.RoomId == room.Id).ToList();
+      var claims = _claimDal.GetAll().Where(c => c.RoomId == room).ToList();
       return new SuccessDataResult<List<Claim>>(claims); //TODO Message will be added
     }
 
-    public IDataResult<Claim> Get(Claim claim)
+    public IDataResult<Claim> Get(string claim)
     {
-      var claimCheck = _claimDal.GetAll().SingleOrDefault(c => c.Id == claim.Id);
+      var claimCheck = _claimDal.GetAll().SingleOrDefault(c => c.Id == claim);
       return new SuccessDataResult<Claim>(claimCheck); //TODO Message will be added
     }
 
@@ -51,7 +51,7 @@ namespace Business.Concrete
       return new SuccessResult(); //TODO Message will be added
     }
 
-    public IDataResult<List<Claim>> GetUsersClaims(Room room)
+    public IDataResult<List<Claim>> GetUsersClaims(string room)
     {
       var user = _userService.GetCurrentUser();
       var usersClaims = _claimDal.GetUserClaims(room, user.Data.Id);

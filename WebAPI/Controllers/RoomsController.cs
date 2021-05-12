@@ -19,9 +19,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("get")]
-        public ActionResult Get(RoomForGetByIdDto room)
+        public ActionResult Get(string room)
         {
-            var result = _roomService.Get(room.Id);
+            var result = _roomService.Get(room);
             if (result.Success)
             {
                 return Ok(result);
@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getusersexist")]
-        public ActionResult GetUsersExistInRoom(Room room)
+        public ActionResult GetUsersExistInRoom(string room)
         {
             var result = _roomService.GetUsersExistInRoom(room);
             if (result.Success)
@@ -80,7 +80,7 @@ namespace WebAPI.Controllers
             var result = _roomService.Delete(room);
             if (result.Success)
             {
-                Ok(result);
+               return Ok(result);
             }
 
             return BadRequest(result);

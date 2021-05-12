@@ -15,10 +15,10 @@ namespace DataAccess.Concrete.Firebase
       _userClaimDal = userClaimDal;
     }
 
-    public List<Claim> GetUserClaims(Room room, string userId)
+    public List<Claim> GetUserClaims(string room, string userId)
     {
       var userClaimsList = from userClaims in _userClaimDal.GetAll()
-        join claim in this.GetAll() on userClaims.RoomId equals room.Id
+        join claim in this.GetAll() on userClaims.RoomId equals room
         where userClaims.UserId == userId
         select new Claim
         {

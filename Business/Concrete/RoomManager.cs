@@ -45,7 +45,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Room>(result, Messages.RoomFetched);
         }
 
-        public IDataResult<List<User>> GetUsersExistInRoom(Room room)
+        public IDataResult<List<User>> GetUsersExistInRoom(string room)
         {
             var result = _roomDal.GetUsersExistInRoom(room);
             return new SuccessDataResult<List<User>>(result, Messages.UsersExistInRoomFetched);

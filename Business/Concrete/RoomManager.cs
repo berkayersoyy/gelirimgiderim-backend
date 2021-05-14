@@ -9,6 +9,7 @@ using Entities.Concrete;
 using Entities.Dtos;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Utilities.Business;
 using Core.Utilities.IoC;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -79,7 +80,6 @@ namespace Business.Concrete
         }
         public IResult JoinRoom(string invitation)
         {
-            //TODO room capasity arrangements.
             //TODO check if user already exists in room.
             var userCheck = _userService.GetCurrentUser();
             if (userCheck.Data == null)
@@ -90,6 +90,13 @@ namespace Business.Concrete
             if (invitationCheck == null)
             {
                 return new ErrorResult(Messages.InvitationNotFound);
+            }
+            BusinessRules.Run(CheckIfRoomCapasityLessThan100(invitationCheck.RoomId));
+            var result = _userRoomDal.GetAll()
+                .SingleOrDefault(r => r.RoomId == invitationCheck.RoomId && r.UserId == userCheck.Data.Id);
+            if (result!=null)
+            {
+                return new SuccessResult(Messages.UserAlreadyExistsInRoom);
             }
             _userRoomDal.Add(new UserRoom
             {
@@ -102,15 +109,19 @@ namespace Business.Concrete
         public IResult LeaveRoom(Room room)
         {
             var userCheck = _userService.GetCurrentUser();
-            if (userCheck.Data != null)
+            if (userCheck.Data == null)
             {
-                var roomToBeLeaved = _userRoomDal.GetAll().SingleOrDefault(u => u.RoomId == room.Id && u.UserId == userCheck.Data.Id);
-                _userRoomDal.Delete(roomToBeLeaved);
-                return new SuccessResult(Messages.LeaveRoomSuccessful);
+                return new ErrorResult(Messages.UserNotFound);
             }
-            //TODO Room user count check
             //TODO Claims will be added.
-            return new ErrorResult(Messages.UserNotFound);
+            //TODO Remove user from room need to be added.
+            var roomToBeLeaved = _userRoomDal.GetAll().SingleOrDefault(u => u.RoomId == room.Id && u.UserId == userCheck.Data.Id);
+            if (roomToBeLeaved==null)
+            {
+                return new ErrorResult(Messages.UserNotFoundInRoom);
+            }
+            _userRoomDal.Delete(roomToBeLeaved);
+            return new SuccessResult(Messages.LeaveRoomSuccessful);
         }
 
         public IResult Add(Room room)
@@ -155,5 +166,17 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Room>>(result, Messages.UserRoomsFetched);
   
         }
+
+        private IResult CheckIfRoomCapasityLessThan100(string roomId)
+        {
+            var result = _userRoomDal.GetAll().Where(r => r.RoomId.Equals(roomId));
+            if (result.Count()>=99)
+            {
+                return new ErrorResult(Messages.RoomLimitExceed);
+            }
+
+            return new SuccessResult();
+        }
+
     }
 }

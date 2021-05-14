@@ -29,7 +29,7 @@ namespace Business.Aspects.Autofac
     {
       var roomId = _httpContextAccessor.HttpContext.Items["currentRoom"].ToString();
       var room = _roomService.Get(roomId);
-      var claims = _claimService.GetUsersClaims(room.Data.Id);
+      var claims = _claimService.GetUserClaims(room.Data.Id);
       foreach (var role in _roles)
       {
         foreach (var claim in claims.Data)

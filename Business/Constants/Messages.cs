@@ -44,10 +44,13 @@ namespace Business.Constants
     public static string RoomUpdated = "Room updated.";
     public static string UserFetchedById = "User fetched by id.";
     public static string CurrentUserFetched = "Current user fetched.";
+    public static string UserNotFoundInRoom = "User not found in room.";
+    public static string UserAlreadyExistsInRoom = "User already exists in room.";
 
         //TODO Localization need to be added.
 
 
     public static string AuthorizationDenied = "Authorization denied.";
+    public static string RoomLimitExceed = "Room limit exceed, default 99.";
   }
 }

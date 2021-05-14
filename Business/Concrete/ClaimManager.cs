@@ -51,7 +51,7 @@ namespace Business.Concrete
       return new SuccessResult(); //TODO Message will be added
     }
 
-    public IDataResult<List<Claim>> GetUsersClaims(string room)
+    public IDataResult<List<Claim>> GetUserClaims(string room)
     {
       var user = _userService.GetCurrentUser();
       var usersClaims = _claimDal.GetUserClaims(room, user.Data.Id);

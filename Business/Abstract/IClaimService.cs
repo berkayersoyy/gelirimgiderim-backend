@@ -11,7 +11,7 @@ namespace Business.Abstract
     IResult Add(Claim claim);
     IResult Delete(Claim claim);
     IResult Update(Claim claim);
-    IDataResult<List<Claim>> GetUsersClaims(string room);
+    IDataResult<List<Claim>> GetUserClaims(string room);
     IResult AddClaimToUser(UserClaim userClaim);
     IResult DeleteClaimFromUser(UserClaim userClaim);
 

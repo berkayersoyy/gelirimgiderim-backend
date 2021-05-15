@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
-using Entities.Dtos;
 
 namespace Business.Abstract
 {
@@ -11,6 +10,7 @@ namespace Business.Abstract
         IDataResult<Room> Get(string roomId);
         IDataResult<List<User>> GetUsersExistInRoom(string room);
         IDataResult<List<Room>> GetUserRooms();
+        IDataResult<List<Invitation>> GetListInvitations();
         IDataResult<Invitation> CreateInvitation(Room room);
         IDataResult<Invitation> GetInvitation(string roomId);
         IResult DeleteInvitation(Invitation invitation);
@@ -19,5 +19,6 @@ namespace Business.Abstract
         IResult Add(Room room);
         IResult Delete(Room room);
         IResult Update(Room room);
+
     }
 }

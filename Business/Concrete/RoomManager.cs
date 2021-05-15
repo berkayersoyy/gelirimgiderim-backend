@@ -6,13 +6,10 @@ using Core.Utilities.Results;
 using Core.Utilities.RoomInvitation;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Entities.Dtos;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Internal;
 using Core.Utilities.Business;
-using Core.Utilities.IoC;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Business.Concrete
 {
@@ -25,6 +22,8 @@ namespace Business.Concrete
 
         private ITransactionService _transactionService;
         private IUserService _userService;
+
+        private int _invitationExpireTime = 15;
 
 
         public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService, ITransactionService transactionService)
@@ -54,15 +53,32 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(result, Messages.UsersExistInRoomFetched);
         }
 
+        public IDataResult<List<Invitation>> GetListInvitations()
+        {
+            var result = _invitationDal.GetAll().ToList();
+            return new SuccessDataResult<List<Invitation>>(result,Messages.InvitationsFetched); 
+        }
         public IDataResult<Invitation> CreateInvitation(Room room)
         {
             var invitationCheck = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == room.Id);
             if (invitationCheck == null)
             {
                 var invitation = _invitationHelper.CreateInvitation(room.Id);
+                while (true)
+                {
+                    var invitationForCheckInvitationCode = GetListInvitations().Data.Where(i => i.InvitationCode == invitation.InvitationCode);
+                    if (invitationForCheckInvitationCode.IsNullOrEmpty())
+                    {
+                        break;
+                    }
+
+                    invitation = _invitationHelper.CreateInvitation(room.Id);
+                }
+                invitation.Expiration = DateTime.UtcNow.Add(TimeSpan.FromMinutes(_invitationExpireTime))
+                    .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+                    .TotalMilliseconds;
                 _invitationDal.Add(invitation);
-                return new SuccessDataResult<Invitation>(invitation,Messages.InvitationCreated);
-                //TODO Invitation check needed for creating the same one in the list!
+                return new SuccessDataResult<Invitation>(invitation, Messages.InvitationCreated);
             }
             return new ErrorDataResult<Invitation>(Messages.InvitationExists);
         }
@@ -70,6 +86,18 @@ namespace Business.Concrete
         public IDataResult<Invitation> GetInvitation(string roomId)
         {
             var invitation = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == roomId);
+            if (invitation == null)
+            {
+                return new ErrorDataResult<Invitation>(Messages.InvitationNotFound);
+            }
+            var timeNow = DateTime.UtcNow
+                .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+                .TotalMilliseconds;
+            if (timeNow > invitation.Expiration)
+            {
+                DeleteInvitation(invitation);
+                return new ErrorDataResult<Invitation>(Messages.InvitationExpired);
+            }
             return new SuccessDataResult<Invitation>(invitation, Messages.InvitationFetched);
         }
 
@@ -80,7 +108,6 @@ namespace Business.Concrete
         }
         public IResult JoinRoom(string invitation)
         {
-            //TODO check if user already exists in room.
             var userCheck = _userService.GetCurrentUser();
             if (userCheck.Data == null)
             {
@@ -94,9 +121,9 @@ namespace Business.Concrete
             BusinessRules.Run(CheckIfRoomCapasityLessThan100(invitationCheck.RoomId));
             var result = _userRoomDal.GetAll()
                 .SingleOrDefault(r => r.RoomId == invitationCheck.RoomId && r.UserId == userCheck.Data.Id);
-            if (result!=null)
+            if (result != null)
             {
-                return new SuccessResult(Messages.UserAlreadyExistsInRoom);
+                return new ErrorResult(Messages.UserAlreadyExistsInRoom);
             }
             _userRoomDal.Add(new UserRoom
             {
@@ -114,13 +141,19 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.UserNotFound);
             }
             //TODO Claims will be added.
-            //TODO Remove user from room need to be added.
             var roomToBeLeaved = _userRoomDal.GetAll().SingleOrDefault(u => u.RoomId == room.Id && u.UserId == userCheck.Data.Id);
-            if (roomToBeLeaved==null)
+            if (roomToBeLeaved == null)
             {
                 return new ErrorResult(Messages.UserNotFoundInRoom);
             }
             _userRoomDal.Delete(roomToBeLeaved);
+            var usersLeftInRoom = _userRoomDal.GetAll().Where(r => r.RoomId == room.Id);
+            if (usersLeftInRoom.IsNullOrEmpty())
+            {
+                Delete(room);
+                var invitation = GetInvitation(room.Id);
+                DeleteInvitation(invitation.Data);
+            }
             return new SuccessResult(Messages.LeaveRoomSuccessful);
         }
 
@@ -147,6 +180,8 @@ namespace Business.Concrete
             users.ForEach(u => _userRoomDal.Delete(u));
             _transactionService.GetTransactionsForRoom(room.Id).Data
                 .ForEach(x => _transactionService.Delete(x));
+            var invitation = GetInvitation(room.Id);
+            DeleteInvitation(invitation.Data);
             return new SuccessResult(Messages.RoomDeleted);
         }
 
@@ -164,13 +199,13 @@ namespace Business.Concrete
             }
             var result = _roomDal.GetUserRooms(userCheck.Data);
             return new SuccessDataResult<List<Room>>(result, Messages.UserRoomsFetched);
-  
+
         }
 
         private IResult CheckIfRoomCapasityLessThan100(string roomId)
         {
             var result = _userRoomDal.GetAll().Where(r => r.RoomId.Equals(roomId));
-            if (result.Count()>=99)
+            if (result.Count() >= 99)
             {
                 return new ErrorResult(Messages.RoomLimitExceed);
             }

@@ -13,6 +13,7 @@ namespace Core.Entities.Concrete
         [FirestoreProperty]
         public string InvitationCode { get; set; }
 
-        ///TODO Expire time will be added
+        [FirestoreProperty]
+        public double Expiration { get; set; } 
     }
 }

@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Extensions
 {
@@ -27,6 +28,8 @@ namespace Core.Extensions
                 await HandleExceptionAsync(httpContext, e);
             }
         }
+        //TODO Logging need to be added.
+        //TODO Validations need to be added.
 
         private Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
         {
@@ -36,6 +39,11 @@ namespace Core.Extensions
             string message = "Internal Server Error";
             if (exception.GetType()==typeof(ValidationException))
             {
+                message = exception.Message;
+            }
+            if (exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                httpContext.Response.StatusCode= (int) HttpStatusCode.Unauthorized;
                 message = exception.Message;
             }
             return httpContext.Response.WriteAsync(new ErrorDetails

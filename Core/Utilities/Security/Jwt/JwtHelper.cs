@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core.Entities.Concrete;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using Core.Extensions;
 using Core.Utilities.Security.Encryption;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +32,7 @@ namespace Core.Utilities.Security.Jwt
             return new AccessToken
             {
                 Token = token,
-                Expiration = _accessTokenExpiration
+                Expiration = _accessTokenExpiration,
             };
         }
 

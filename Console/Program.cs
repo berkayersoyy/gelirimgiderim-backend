@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using Core.Entities.Concrete;
-using DataAccess.Abstract;
-using DataAccess.Concrete.Firebase;
-using Google.Api.Gax;
+
+
+using Core.DataAccess.FirebaseStorage;
 
 namespace Console
 {
@@ -12,9 +8,11 @@ namespace Console
     {
         static void Main(string[] args)
         {
-
-
+            FirebaseStorageRepositoryBase<string> a = new FirebaseStorageRepositoryBase<string>();
+            a.Upload(@"C:\Users\BERKAY\Desktop\1.mp4","DENEME").Wait();
         }
+
+
 
     }
 }

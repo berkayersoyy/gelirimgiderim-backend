@@ -21,4 +21,5 @@ namespace Core.Entities.Concrete
         [FirestoreProperty]
         public bool Status { get; set; }
     }
+    //TODO Add Aspects to Business and business rules to business
 }

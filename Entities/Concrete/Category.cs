@@ -13,6 +13,8 @@ namespace Entities.Concrete
         public string CategoryName { get; set; }
         [FirestoreProperty]
         public string ImagePath { get; set; }
+        [FirestoreProperty]
+        public string RoomId { get; set; }
 
         //TODO category management needed.
         //TODO doughnut chart management needed.

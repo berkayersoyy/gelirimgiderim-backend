@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Core.Constants;
 using Core.Entities.Abstract;
 using Google.Cloud.Firestore;
@@ -20,7 +19,7 @@ namespace Core.DataAccess.FirebaseDatabase
         /// <param name="collectionName"></param>
         public FirebaseRepositoryBase(string collectionName)
         {
-            string filePath = FirebasePaths.FilePathForLocal;
+            string filePath = FirebasePaths.FilePath;
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filePath);
             _firestoreDb = FirestoreDb.Create(FirebasePaths.ProjectId);
             _collectionName = collectionName;
@@ -88,7 +87,7 @@ namespace Core.DataAccess.FirebaseDatabase
         /// </summary>
         /// <param name="query"></param>
         /// <returns><typeparam name="T">List of T</typeparam></returns>
-        public List<T> QuerySnapshots(Query query)
+        private List<T> QuerySnapshots(Query query)
         {
             QuerySnapshot snapshot = query.GetSnapshotAsync().GetAwaiter().GetResult();
             List<T> list = new List<T>();

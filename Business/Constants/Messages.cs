@@ -19,6 +19,7 @@ namespace Business.Constants
         public static string UserFetchedByMail = "User fetched by mail.";
         public static string UserAdded = "User added.";
         public static string UserDeleted = "User deleted.";
+        public static string UserUpdated = "User updated.";
 
         public static string UserAlreadyRegistered = "User already registered with this email.";
         public static string UserRegistered = "User registered.";

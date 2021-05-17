@@ -8,7 +8,7 @@ namespace Business.Abstract
     {
         IDataResult<List<Room>> GetList();
         IDataResult<Room> Get(string roomId);
-        IDataResult<List<User>> GetUsersExistInRoom(string room);
+        IDataResult<List<User>> GetUsersExistInRoom(string roomId);
         IDataResult<List<Room>> GetUserRooms();
         IDataResult<List<Invitation>> GetListInvitations();
         IDataResult<Invitation> CreateInvitation(Room room);

@@ -57,6 +57,7 @@ namespace Business.Concrete
         {
             var result = _invitationDal.GetAll().ToList();
             return new SuccessDataResult<List<Invitation>>(result,Messages.InvitationsFetched); 
+            //TODO github readmes need to be added.
         }
         public IDataResult<Invitation> CreateInvitation(Room room)
         {
@@ -197,7 +198,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<Room>>(Messages.UserNotFound);
             }
-            var result = _roomDal.GetUserRooms(userCheck.Data);
+            var result = _roomDal.GetUserRooms(userCheck.Data.Id);
             return new SuccessDataResult<List<Room>>(result, Messages.UserRoomsFetched);
 
         }

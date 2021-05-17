@@ -1,16 +1,13 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using System.Security.Claims;
 using Business.Abstract;
 using Business.Constants;
-using Castle.Core.Internal;
 using Core.Entities.Concrete;
 using Core.Utilities.IoC;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -41,6 +38,12 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserDeleted);
         }
 
+        public IResult Update(User user)
+        {
+            _userDal.Update(user);
+            return new SuccessResult(Messages.UserUpdated);
+        }
+
         public IDataResult<User> GetByMail(string email)
         {
             var userCheck = _userDal.GetAllUsersWithFirebase().SingleOrDefault(u => u.Email == email);
@@ -55,7 +58,7 @@ namespace Business.Concrete
         }
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
-            var result = _userDal.GetClaims(user);
+            var result = _userDal.GetClaims(user.Id);
             return new SuccessDataResult<List<OperationClaim>>(result, Messages.UserClaimsFetched);
         }
 

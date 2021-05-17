@@ -3,7 +3,6 @@ using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
 using Business.Concrete;
 using Castle.DynamicProxy;
-using Core.Entities.Concrete;
 using Core.Utilities.Interceptors;
 using Core.Utilities.RoomInvitation;
 using Core.Utilities.Security.Jwt;

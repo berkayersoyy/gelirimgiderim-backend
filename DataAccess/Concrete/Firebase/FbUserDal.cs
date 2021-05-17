@@ -24,12 +24,12 @@ namespace DataAccess.Concrete.Firebase
             _userOperationClaimDal = userOperationClaimDal;
         }
 
-        public List<OperationClaim> GetClaims(User user)
+        public List<OperationClaim> GetClaims(string userId)
         {
             var operationClaims = from operationClaim in _operationClaimDal.GetAll()
                 join userOperationClaim in _userOperationClaimDal.GetAll()
                     on operationClaim.Id equals userOperationClaim.OperationClaimId
-                where userOperationClaim.UserId == user.Id
+                where userOperationClaim.UserId == userId
                 select new OperationClaim
                 {
                     Id = operationClaim.Id,

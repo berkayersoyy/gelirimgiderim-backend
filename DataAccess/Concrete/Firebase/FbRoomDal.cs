@@ -4,7 +4,6 @@ using Core.Constants;
 using Core.DataAccess.FirebaseDatabase;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
-using Entities.Dtos;
 
 namespace DataAccess.Concrete.Firebase
 {
@@ -17,11 +16,11 @@ namespace DataAccess.Concrete.Firebase
             _userDal = userDal;
             _userRoomDal = userRoomDal;
         }
-        public List<User> GetUsersExistInRoom(string room)
+        public List<User> GetUsersExistInRoom(string roomId)
         {
             var users = from userRoom in _userRoomDal.GetAll()
-                join user in _userDal.GetAllUsersWithFirebase() on userRoom.RoomId equals room
-                where user.Id == userRoom.UserId
+                join user in _userDal.GetAllUsersWithFirebase() on userRoom.RoomId equals roomId
+                        where user.Id == userRoom.UserId
                 select new User
                 {
                     Id = user.Id,
@@ -34,10 +33,10 @@ namespace DataAccess.Concrete.Firebase
                 };
             return users.ToList();
         }
-        public List<Room> GetUserRooms(User user)
+        public List<Room> GetUserRooms(string userId)
         {
             var userRooms = from userRoom in _userRoomDal.GetAll()
-                join room in GetAll() on userRoom.UserId equals user.Id
+                join room in GetAll() on userRoom.UserId equals userId
                 where userRoom.RoomId == room.Id
                 select new Room
                 {

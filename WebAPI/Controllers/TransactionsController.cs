@@ -85,9 +85,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("gettransactionsbycategory")]
-        public ActionResult GetTransactionsByCategory()
+        public ActionResult GetTransactionsByCategory(string categoryId)
         {
-            var result = _transactionService.GetTransactionsByCategory()
+            var result = _transactionService.GetTransactionsByCategory(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
     }
 }

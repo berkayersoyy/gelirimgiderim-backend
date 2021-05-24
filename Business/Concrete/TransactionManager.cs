@@ -18,12 +18,13 @@ namespace Business.Concrete
     {
         private ITransactionDal _transactionDal;
         private IUserService _userService;
-        priv
+        private IRoomService _roomService;
 
-        public TransactionManager(ITransactionDal fbTransactionDal, IUserService userService, ICategoryService categoryService)
+        public TransactionManager(ITransactionDal fbTransactionDal, IUserService userService, IRoomService roomService)
         {
             _transactionDal = fbTransactionDal;
             _userService = userService;
+            _roomService = roomService;
         }
         [CacheAspect(60)]
         public IDataResult<List<Transaction>> GetList()
@@ -69,11 +70,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Transaction>>(result, Messages.TransactionsFetched);
         }
 
-        public IDataResult<List<Transaction>> GetTransactionsByCategory(string roomId,string categoryId)
+        public IDataResult<List<Transaction>> GetTransactionsByCategory(string categoryId)
         {
-            var transactions = GetTransactionsForRoom(roomId);
+            var room = _roomService.GetCurrentRoom();
+            var transactions = GetTransactionsForRoom(room.Data.Id);
             var classifiedTransactions = transactions.Data.Where(t => t.CategoryId.Equals(categoryId)).ToList();
-
             return new SuccessDataResult<List<Transaction>>(classifiedTransactions);
         }
     }

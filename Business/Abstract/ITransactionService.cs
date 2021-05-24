@@ -12,6 +12,6 @@ namespace Business.Abstract
         IResult Add(Transaction transaction);
         IResult Update(Transaction transaction);
         IResult Delete(Transaction transaction);
-        IDataResult<List<Transaction>> GetTransactionsByCategory(string roomId, string categoryId);
+        IDataResult<List<Transaction>> GetTransactionsByCategory(string categoryId);
     }
 }

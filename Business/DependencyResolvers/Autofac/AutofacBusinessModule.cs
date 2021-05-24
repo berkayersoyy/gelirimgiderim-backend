@@ -25,6 +25,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<FbInvitationDal>().As<IInvitationDal>().SingleInstance();
             builder.RegisterType<FbClaimDal>().As<IClaimDal>().SingleInstance();
             builder.RegisterType<FbUserClaimDal>().As<IUserClaimDal>().SingleInstance();
+            builder.RegisterType<FbStorageDal>().As<IStorageDal>().SingleInstance();
+            builder.RegisterType<FbSharedCategoryDal>().As<ISharedCategoryDal>().SingleInstance();
+            builder.RegisterType<FbSharedClaimDal>().As<ISharedClaimDal>().SingleInstance();
 
             builder.RegisterType<TransactionManager>().As<ITransactionService>().SingleInstance();
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();

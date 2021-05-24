@@ -9,6 +9,8 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(c => c.CategoryName).NotEmpty();
             RuleFor(c => c.ImagePath).NotEmpty();
+            RuleFor(c => c.ImageFileName).NotEmpty();
+            RuleFor(c => c.RoomId).NotEmpty();
         }
     }
 }

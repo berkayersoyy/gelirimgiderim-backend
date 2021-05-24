@@ -14,6 +14,8 @@ namespace Business.Abstract
     IDataResult<List<Claim>> GetUserClaims(string room);
     IResult AddClaimToUser(UserClaim userClaim);
     IResult DeleteClaimFromUser(UserClaim userClaim);
+    IDataResult<List<Claim>> GetSharedList();
+    IDataResult<Claim> GetShared(string claimId);
 
   }
 }

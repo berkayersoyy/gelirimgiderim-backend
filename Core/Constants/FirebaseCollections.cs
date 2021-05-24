@@ -12,5 +12,7 @@ namespace Core.Constants
         public static string Invitations = "invitations";
         public static string Claims = "claims";
         public static string UserClaims = "userClaims";
+        public static string SharedCategories = "sharedCategories";
+        public static string SharedClaims = "sharedClaims";
     }
 }

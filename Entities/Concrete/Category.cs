@@ -13,6 +13,8 @@ namespace Entities.Concrete
         public string CategoryName { get; set; }
         [FirestoreProperty]
         public string ImagePath { get; set; }
+        [FirestoreProperty] 
+        public string ImageFileName { get; set; }
         [FirestoreProperty]
         public string RoomId { get; set; }
 

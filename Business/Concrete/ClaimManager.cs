@@ -14,14 +14,15 @@ namespace Business.Concrete
     private IClaimDal _claimDal;
     private IUserClaimDal _userClaimDal;
     private IUserService _userService;
+    private ISharedClaimDal _sharedClaimDal;
 
-    public ClaimManager(IClaimDal claimDal, IUserClaimDal userClaimDal, IUserService userService)
+    public ClaimManager(IClaimDal claimDal, IUserClaimDal userClaimDal, IUserService userService, ISharedClaimDal sharedClaimDal)
     {
       _claimDal = claimDal;
       _userClaimDal = userClaimDal;
       _userService = userService;
+      _sharedClaimDal = sharedClaimDal;
     }
-
     public IDataResult<List<Claim>> GetList(string room)
     {
       var claims = _claimDal.GetAll().Where(c => c.RoomId == room).ToList();
@@ -70,6 +71,18 @@ namespace Business.Concrete
     {
       _userClaimDal.Add(userClaim);
       return new SuccessResult(Messages.ClaimDeletedFromUser);
+    }
+
+    public IDataResult<List<Claim>> GetSharedList()
+    {
+        var result = _sharedClaimDal.GetAll();
+        return new SuccessDataResult<List<Claim>>(result);
+    }
+
+    public IDataResult<Claim> GetShared(string claimId)
+    {
+        var result = _sharedClaimDal.GetAll().SingleOrDefault(c => c.Id.Equals(claimId));
+        return new SuccessDataResult<Claim>(result);
     }
   }
 }

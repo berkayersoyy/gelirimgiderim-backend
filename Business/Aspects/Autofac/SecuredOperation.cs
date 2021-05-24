@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Security.Claims;
 using Business.Abstract;
 using Business.Constants;
 using Castle.DynamicProxy;
@@ -11,36 +9,33 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Business.Aspects.Autofac
 {
-  public class SecuredOperation : MethodInterception
-  {
-    private string[] _roles;
-    private IHttpContextAccessor _httpContextAccessor;
-    private IClaimService _claimService;
-    private IRoomService _roomService;
-    public SecuredOperation(string roles)
+    public class SecuredOperation : MethodInterception
     {
-      _roles = roles.Split(',');
-      _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
-      _claimService = ServiceTool.ServiceProvider.GetService<IClaimService>();
-      _roomService = ServiceTool.ServiceProvider.GetService<IRoomService>();
-    }
-
-    public override void OnBefore(IInvocation invocation)
-    {
-      var roomId = _httpContextAccessor.HttpContext.Items["currentRoom"].ToString();
-      var room = _roomService.Get(roomId);
-      var claims = _claimService.GetUserClaims(room.Data.Id);
-      foreach (var role in _roles)
-      {
-        foreach (var claim in claims.Data)
+        private string[] _roles;
+        private IClaimService _claimService;
+        private IRoomService _roomService;
+        public SecuredOperation(string roles)
         {
-          if (claim.ClaimProperties.Contains(role))
-          {
-            return;
-          }
+            _roles = roles.Split(',');
+            _claimService = ServiceTool.ServiceProvider.GetService<IClaimService>();
+            _roomService = ServiceTool.ServiceProvider.GetService<IRoomService>();
         }
-      }
-      throw new Exception(Messages.AuthorizationDenied);
+
+        public override void OnBefore(IInvocation invocation)
+        {
+            var room = _roomService.GetCurrentRoom().Data;
+            var claims = _claimService.GetUserClaims(room.Id);
+            foreach (var role in _roles)
+            {
+                foreach (var claim in claims.Data)
+                {
+                    if (claim.ClaimProperties.Contains(role))
+                    {
+                        return;
+                    }
+                }
+            }
+            throw new Exception(Messages.AuthorizationDenied);
+        }
     }
-  }
 }

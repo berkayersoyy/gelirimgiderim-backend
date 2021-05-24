@@ -112,6 +112,30 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("getsharedall")]
+        public ActionResult GetSharedList()
+        {
+            var result = _claimService.GetSharedList();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getshared")]
+        public ActionResult GetShared(string claimId)
+        {
+            var result = _claimService.GetShared(claimId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
         
     }
 }

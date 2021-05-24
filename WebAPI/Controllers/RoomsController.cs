@@ -146,5 +146,28 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("setcurrentroom")]
+        public ActionResult SetCurrentRoom(Room room)
+        {
+            var result = _roomService.SetCurrentRoom(room);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcurrentroom")]
+        public ActionResult GetCurrentRoom()
+        {
+            var result = _roomService.GetCurrentRoom();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

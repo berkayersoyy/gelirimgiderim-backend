@@ -8,7 +8,11 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
 using System.Linq;
+using Business.ValidationRules.FluentValidation;
 using Castle.Core.Internal;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Caching;
 using Core.Utilities.Business;
 
 namespace Business.Concrete
@@ -23,10 +27,12 @@ namespace Business.Concrete
         private ITransactionService _transactionService;
         private IUserService _userService;
 
+        private ICacheManager _cacheManager;
+
         private int _invitationExpireTime = 15;
 
 
-        public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService, ITransactionService transactionService)
+        public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService, ITransactionService transactionService, ICacheManager cacheManager)
         {
             _roomDal = roomDal;
             _invitationDal = invitationDal;
@@ -34,7 +40,9 @@ namespace Business.Concrete
             _userRoomDal = userRoomDal;
             _userService = userService;
             _transactionService = transactionService;
+            _cacheManager = cacheManager;
         }
+        [CacheAspect(duration: 60)]
         public IDataResult<List<Room>> GetList()
         {
             var result = _roomDal.GetAll();
@@ -52,7 +60,7 @@ namespace Business.Concrete
             var result = _roomDal.GetUsersExistInRoom(room);
             return new SuccessDataResult<List<User>>(result, Messages.UsersExistInRoomFetched);
         }
-
+        [CacheAspect(duration: 60)]
         public IDataResult<List<Invitation>> GetListInvitations()
         {
             var result = _invitationDal.GetAll().ToList();
@@ -107,6 +115,26 @@ namespace Business.Concrete
             _invitationDal.Delete(invitation);
             return new SuccessResult(Messages.InvitationDeleted);
         }
+
+        public IResult SetCurrentRoom(Room room)
+        {
+            var user = _userService.GetCurrentUser().Data;
+            _cacheManager.Add($"currentRoom{user.Id}",room,60);
+            return new SuccessResult();
+        }
+
+        public IDataResult<Room> GetCurrentRoom()
+        {
+            var user = _userService.GetCurrentUser().Data;
+            if(_cacheManager.IsAdd($"currentRoom{user.Id}"))
+            {
+                var cache = (Room) _cacheManager.Get($"currentRoom{user.Id}");
+                return new SuccessDataResult<Room>(cache);
+            }
+
+            return new ErrorDataResult<Room>();
+        }
+
         public IResult JoinRoom(string invitation)
         {
             var userCheck = _userService.GetCurrentUser();
@@ -157,7 +185,8 @@ namespace Business.Concrete
             }
             return new SuccessResult(Messages.LeaveRoomSuccessful);
         }
-
+        [ValidationAspect(typeof(RoomValidator), Priority = 1)]
+        [CacheRemoveAspect("IRoomService.Get")]
         public IResult Add(Room room)
         {
             var userCheck = _userService.GetCurrentUser();
@@ -173,7 +202,8 @@ namespace Business.Concrete
             }
             return new ErrorResult(Messages.UserNotFound);
         }
-
+        [ValidationAspect(typeof(RoomValidator), Priority = 1)]
+        [CacheRemoveAspect("IRoomService.Get")]
         public IResult Delete(Room room)
         {
             _roomDal.Delete(room);
@@ -185,7 +215,7 @@ namespace Business.Concrete
             DeleteInvitation(invitation.Data);
             return new SuccessResult(Messages.RoomDeleted);
         }
-
+        [CacheRemoveAspect("IRoomService.Get")]
         public IResult Update(Room room)
         {
             _roomDal.Update(room);

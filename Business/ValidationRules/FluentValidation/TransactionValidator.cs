@@ -9,8 +9,11 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(t => t.Amount).NotEqual(0);
             RuleFor(t => t.CategoryId).NotEmpty();
-            RuleFor(t => t.Description).NotEmpty();
             RuleFor(t => t.Description).MaximumLength(50);
+            RuleFor(c => c.Date).NotEmpty();
+            RuleFor(c => c.RoomId).NotEmpty();
+            RuleFor(c => c.UserId).NotEmpty();
+            RuleFor(c => c.Title).NotEmpty();
         }
     }
 }

@@ -42,6 +42,7 @@ namespace DataAccess.Concrete.Firebase
                 {
                     Id = room.Id,
                     Name = room.Name,
+                    Description = room.Description
                 };
             return userRooms.ToList();
         }

@@ -8,6 +8,8 @@ namespace Business.Abstract
     {
         IDataResult<List<Category>> GetList();
         IDataResult<Category> Get(string categoryId);
+        IDataResult<List<Category>> GetSharedList();
+        IDataResult<Category> GetShared(string categoryId);
         IResult Add(Category category);
         IResult Update(Category category);
         IResult Delete(Category category);

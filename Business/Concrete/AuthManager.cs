@@ -56,9 +56,9 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCheck.Data, Messages.SuccessfulLogin);
         }
 
-        public IResult UserExists(User user)
+        public IResult UserExists(string mail)
         {
-            if (_userService.GetByMail(user.Email).Data != null)
+            if (_userService.GetByMail(mail).Data != null)
             {
                 return new ErrorResult(Messages.UserExists);
             }

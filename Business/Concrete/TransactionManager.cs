@@ -5,6 +5,7 @@ using System.Linq;
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -23,7 +24,7 @@ namespace Business.Concrete
             _transactionDal = fbTransactionDal;
             _userService = userService;
         }
-
+        [CacheAspect(60)]
         public IDataResult<List<Transaction>> GetList()
         {
             var result = _transactionDal.GetAll();
@@ -35,7 +36,8 @@ namespace Business.Concrete
             var result = _transactionDal.GetAll().SingleOrDefault(t => t.Id.Equals(transactionId));
             return new SuccessDataResult<Transaction>(result,Messages.TransactionFetched);
         }
-        [ValidationAspect(typeof(TransactionValidator))]
+        [ValidationAspect(typeof(TransactionValidator), Priority = 1)]
+        [CacheRemoveAspect("ITransactionService.Get")]
         public IResult Add(Transaction transaction)
         {
             transaction.Date = DateTime.UtcNow
@@ -45,13 +47,14 @@ namespace Business.Concrete
             _transactionDal.Add(transaction);
             return new SuccessResult(Messages.TransactionAdded);
         }
-
+        [ValidationAspect(typeof(TransactionValidator), Priority = 1)]
+        [CacheRemoveAspect("ITransactionService.Get")]
         public IResult Update(Transaction transaction)
         {
             _transactionDal.Update(transaction);
             return new SuccessResult(Messages.TransactionUpdated);
         }
-
+        [CacheRemoveAspect("ITransactionService.Get")]
         public IResult Delete(Transaction transaction)
         {
             _transactionDal.Delete(transaction);

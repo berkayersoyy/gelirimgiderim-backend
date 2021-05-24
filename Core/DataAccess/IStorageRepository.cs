@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace Core.DataAccess
 {
-    public interface IStorageRepository<T>
+    public interface IStorageRepository
     {
-        Task<string> Upload(string path, string collection);
-        void Delete(string collection, string fileName);
-        Task<string> Get(string collection, string fileName);
+        Task<List<string>> Upload(string path, string roomId);
+        void Delete(string roomId, string fileName);
+        Task<string> Get(string roomId, string fileName);
 
     }
 }

@@ -18,8 +18,9 @@ namespace Business.Concrete
     {
         private ITransactionDal _transactionDal;
         private IUserService _userService;
+        priv
 
-        public TransactionManager(ITransactionDal fbTransactionDal, IUserService userService)
+        public TransactionManager(ITransactionDal fbTransactionDal, IUserService userService, ICategoryService categoryService)
         {
             _transactionDal = fbTransactionDal;
             _userService = userService;
@@ -61,10 +62,19 @@ namespace Business.Concrete
             return new SuccessResult(Messages.TransactionDeleted);
         }
 
+
         public IDataResult<List<Transaction>> GetTransactionsForRoom(string roomId)
         {
             var result = _transactionDal.GetAll().Where(t => t.RoomId == roomId).ToList();
             return new SuccessDataResult<List<Transaction>>(result, Messages.TransactionsFetched);
+        }
+
+        public IDataResult<List<Transaction>> GetTransactionsByCategory(string roomId,string categoryId)
+        {
+            var transactions = GetTransactionsForRoom(roomId);
+            var classifiedTransactions = transactions.Data.Where(t => t.CategoryId.Equals(categoryId)).ToList();
+
+            return new SuccessDataResult<List<Transaction>>(classifiedTransactions);
         }
     }
 }

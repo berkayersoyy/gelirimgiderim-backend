@@ -19,7 +19,7 @@ namespace Core.DataAccess.FirebaseDatabase
         /// <param name="collectionName"></param>
         public FirebaseRepositoryBase(string collectionName)
         {
-            string filePath = FirebasePaths.FilePathForLocal;
+            string filePath = FirebasePaths.FilePath;
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filePath);
             _firestoreDb = FirestoreDb.Create(FirebasePaths.ProjectId);
             _collectionName = collectionName;

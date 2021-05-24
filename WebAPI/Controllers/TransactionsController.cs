@@ -83,5 +83,11 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("gettransactionsbycategory")]
+        public ActionResult GetTransactionsByCategory()
+        {
+            var result = _transactionService.GetTransactionsByCategory()
+        }
     }
 }

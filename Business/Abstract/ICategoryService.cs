@@ -7,6 +7,7 @@ namespace Business.Abstract
     public interface ICategoryService
     {
         IDataResult<List<Category>> GetList();
+        IDataResult<List<Category>> GetListForRoom(string roomId);
         IDataResult<Category> Get(string categoryId);
         IDataResult<List<Category>> GetSharedList();
         IDataResult<Category> GetShared(string categoryId);

@@ -32,6 +32,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Category>>(result,Messages.CategoriesFetched);
         }
 
+        public IDataResult<List<Category>> GetListForRoom(string roomId)
+        {
+            var result = _categoryDal.GetAll().Where(c => c.RoomId.Equals(roomId)).ToList();
+            return new SuccessDataResult<List<Category>>(result);
+        }
         public IDataResult<Category> Get(string categoryId)
         {
             var result = _categoryDal.GetAll().SingleOrDefault(c => c.Id.Equals(categoryId));

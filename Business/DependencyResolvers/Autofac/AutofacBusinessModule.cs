@@ -35,6 +35,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
             builder.RegisterType<RoomManager>().As<IRoomService>().SingleInstance();
             builder.RegisterType<ClaimManager>().As<IClaimService>().SingleInstance();
+            builder.RegisterType<StorageManager>().As<IStorageService>().SingleInstance();
 
             builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
             builder.RegisterType<CodeGenerator>().As<ICodeGenerator>().SingleInstance();

@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public ActionResult GetList()
+        public IActionResult GetList()
         {
             var result = _transactionService.GetList();
             if (result.Success)
@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("get")]
-        public ActionResult GetTransactionById(string transaction)
+        public IActionResult GetTransactionById(string transaction)
         {
             var result = _transactionService.Get(transaction);
             if (result.Success)
@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public ActionResult Add(Transaction transaction)
+        public IActionResult Add(Transaction transaction)
         {
             var result = _transactionService.Add(transaction);
             if (result.Success)
@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("delete")]
-        public ActionResult Delete(Transaction transaction)
+        public IActionResult Delete(Transaction transaction)
         {
             var result = _transactionService.Delete(transaction);
             if (result.Success)
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("update")]
-        public ActionResult Update(Transaction transaction)
+        public IActionResult Update(Transaction transaction)
         {
             var result = _transactionService.Update(transaction);
             if (result.Success)
@@ -73,7 +73,7 @@ namespace WebAPI.Controllers
           
         }
         [HttpGet("getallforroom")]
-        public ActionResult GetListForRoom(string room)
+        public IActionResult GetListForRoom(string room)
         {
             var result = _transactionService.GetTransactionsForRoom(room);
             if (result.Success)
@@ -85,9 +85,33 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("gettransactionsbycategory")]
-        public ActionResult GetTransactionsByCategory(string categoryId)
+        public IActionResult GetTransactionsByCategory(string categoryId)
         {
             var result = _transactionService.GetTransactionsByCategory(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("gettransactiondetaildtos")]
+        public IActionResult GetTransactionDetailDtos(string roomId)
+        {
+            var result = _transactionService.GetTransactionDetailDtos(roomId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("gettransactiondetaildto")]
+        public IActionResult GetTransactionDetailDto(string transactionId)
+        {
+            var result = _transactionService.GetTransactionDetailDto(transactionId);
             if (result.Success)
             {
                 return Ok(result);

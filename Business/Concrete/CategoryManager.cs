@@ -14,15 +14,11 @@ namespace Business.Concrete
     public class CategoryManager:ICategoryService
     {
         private ICategoryDal _categoryDal;
-        private IStorageDal _storageDal;
-        private IRoomService _roomService;
         private ISharedCategoryDal _sharedCategoryDal;
 
-        public CategoryManager(ICategoryDal fbCategoryDal, IStorageDal storageDal, IRoomService roomService, ISharedCategoryDal sharedCategoryDal)
+        public CategoryManager(ICategoryDal fbCategoryDal, ISharedCategoryDal sharedCategoryDal)
         {
             _categoryDal = fbCategoryDal;
-            _storageDal = storageDal;
-            _roomService = roomService;
             _sharedCategoryDal = sharedCategoryDal;
         }
         [CacheAspect(duration:60)]
@@ -59,11 +55,6 @@ namespace Business.Concrete
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Category category)
         {
-            var currentRoom = _roomService.GetCurrentRoom().Data;
-            var upload = _storageDal.Upload(category.ImagePath, currentRoom.Id);
-            var list = upload.GetAwaiter().GetResult();
-            category.ImagePath =  list[0];
-            category.ImageFileName = list[1];
             _categoryDal.Add(category);
             return new SuccessResult(Messages.CategoryAdded);
         }
@@ -71,17 +62,13 @@ namespace Business.Concrete
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Category category)
         {
-            var currentRoom = _roomService.GetCurrentRoom().Data;
             _categoryDal.Update(category);
-            _storageDal.Delete(currentRoom.Id,category.ImageFileName);
             return new SuccessResult(Messages.CategoryUpdated);
         }
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Delete(Category category)
         {
-            var currentRoom = _roomService.GetCurrentRoom().Data;
             _categoryDal.Delete(category);
-            _storageDal.Delete(currentRoom.Id,category.ImageFileName);
             return new SuccessResult(Messages.CategoryDeleted);
         }
     }

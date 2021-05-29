@@ -18,6 +18,7 @@ namespace Entities.Concrete
         [FirestoreProperty]
         public string RoomId { get; set; }
 
+
         //TODO category management needed.
         //TODO doughnut chart management needed.
         //TODO business analyses needed.

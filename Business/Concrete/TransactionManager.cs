@@ -9,6 +9,7 @@ using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Dtos;
 using DateTime = System.DateTime;
 using Transaction = Entities.Concrete.Transaction;
 
@@ -38,6 +39,13 @@ namespace Business.Concrete
             var result = _transactionDal.GetAll().SingleOrDefault(t => t.Id.Equals(transactionId));
             return new SuccessDataResult<Transaction>(result,Messages.TransactionFetched);
         }
+
+        public IDataResult<TransactionDetailDto> GetTransactionDetailDto(string transactionId)
+        {
+            var result = _transactionDal.GetTransactionDetailDtos().SingleOrDefault(t => t.TransactionId.Equals(transactionId));
+            return new SuccessDataResult<TransactionDetailDto>(result);
+        }
+
         [ValidationAspect(typeof(TransactionValidator), Priority = 1)]
         [CacheRemoveAspect("ITransactionService.Get")]
         public IResult Add(Transaction transaction)
@@ -68,6 +76,12 @@ namespace Business.Concrete
         {
             var result = _transactionDal.GetAll().Where(t => t.RoomId == roomId).ToList();
             return new SuccessDataResult<List<Transaction>>(result, Messages.TransactionsFetched);
+        }
+
+        public IDataResult<List<TransactionDetailDto>> GetTransactionDetailDtos(string roomId)
+        {
+            var result = _transactionDal.GetTransactionDetailDtos().Where(c => c.RoomId.Equals(roomId)).ToList();
+            return new SuccessDataResult<List<TransactionDetailDto>>(result);
         }
 
         public IDataResult<List<Transaction>> GetTransactionsByCategory(string categoryId)

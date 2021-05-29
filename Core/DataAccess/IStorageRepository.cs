@@ -5,7 +5,7 @@ namespace Core.DataAccess
 {
     public interface IStorageRepository
     {
-        Task<List<string>> Upload(string path, string roomId);
+        Task<string> Upload(string path, string roomId,string fileName);
         void Delete(string roomId, string fileName);
         Task<string> Get(string roomId, string fileName);
 

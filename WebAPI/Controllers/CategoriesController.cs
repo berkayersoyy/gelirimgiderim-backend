@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
             _categoryService = categoryService;
         }
         [HttpGet("getall")]
-        public ActionResult GetList()
+        public IActionResult GetList()
         {
             var result = _categoryService.GetList();
             if (result.Success)
@@ -26,8 +26,20 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("getallforroom")]
+        public IActionResult GetListForRoom(string roomId)
+        {
+            var result = _categoryService.GetListForRoom(roomId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
         [HttpGet("getbyid")]
-        public ActionResult GetCategoryById(string categoryId)
+        public IActionResult GetCategoryById(string categoryId)
         {
             var result = _categoryService.Get(categoryId);
             if (result.Success)
@@ -39,7 +51,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public ActionResult Add(Category category)
+        public IActionResult Add(Category category)
         {
             var result = _categoryService.Add(category);
             if (result.Success)
@@ -51,7 +63,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public ActionResult Delete(Category category)
+        public IActionResult Delete(Category category)
         {
             var result = _categoryService.Delete(category);
             if (result.Success)
@@ -63,7 +75,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public ActionResult Update(Category category)
+        public IActionResult Update(Category category)
         {
             var result = _categoryService.Update(category);
             if (result.Success)
@@ -75,7 +87,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getsharedall")]
-        public ActionResult GetSharedList()
+        public IActionResult GetSharedList()
         {
             var result = _categoryService.GetSharedList();
             if (result.Success)
@@ -87,7 +99,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getsharedbyid")]
-        public ActionResult GetSharedById(string categoryId)
+        public IActionResult GetSharedById(string categoryId)
         {
             var result = _categoryService.GetShared(categoryId);
             if (result.Success)

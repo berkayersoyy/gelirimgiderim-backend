@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public ActionResult GetList(string room)
+        public IActionResult GetList(string room)
         {
             var result = _claimService.GetList(room);
             if (result.Success)
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("get")]
-        public ActionResult Get(string claim)
+        public IActionResult Get(string claim)
         {
             var result = _claimService.Get(claim);
             if (result.Success)
@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public ActionResult Add(Claim claim)
+        public IActionResult Add(Claim claim)
         {
             var result = _claimService.Add(claim);
             if (result.Success)
@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public ActionResult Delete(Claim claim)
+        public IActionResult Delete(Claim claim)
         {
             var result = _claimService.Delete(claim);
             if (result.Success)
@@ -66,7 +66,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public ActionResult Update(Claim claim)
+        public IActionResult Update(Claim claim)
         {
             var result = _claimService.Update(claim);
             if (result.Success)
@@ -78,7 +78,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getuserclaims")]
-        public ActionResult GetUserClaims(string room)
+        public IActionResult GetUserClaims(string room)
         {
             var result = _claimService.GetUserClaims(room);
             if (result.Success)
@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("addclaimtouser")]
-        public ActionResult AddClaimToUser(UserClaim userClaim)
+        public IActionResult AddClaimToUser(UserClaim userClaim)
         {
             var result = _claimService.AddClaimToUser(userClaim);
             if (result.Success)
@@ -102,7 +102,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("deleteclaimfromuser")]
-        public ActionResult DeleteClaimFromUser(UserClaim userClaim)
+        public IActionResult DeleteClaimFromUser(UserClaim userClaim)
         {
             var result = _claimService.DeleteClaimFromUser(userClaim);
             if (result.Success)
@@ -114,7 +114,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getsharedall")]
-        public ActionResult GetSharedList()
+        public IActionResult GetSharedList()
         {
             var result = _claimService.GetSharedList();
             if (result.Success)
@@ -126,7 +126,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getshared")]
-        public ActionResult GetShared(string claimId)
+        public IActionResult GetShared(string claimId)
         {
             var result = _claimService.GetShared(claimId);
             if (result.Success)

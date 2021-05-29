@@ -1,6 +1,6 @@
 ﻿
 
-using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,22 +12,20 @@ namespace Core.DataAccess.FirebaseStorage
 {
     public class FirebaseStorageRepositoryBase : IStorageRepository
     {
-        public async Task<List<string>> Upload(string path, string roomId)
+        public async Task<string> Upload(string path,string roomId,string fileName)
         {
-            var stream = new MemoryStream(File.ReadAllBytes(path));
+            var fromBase64 = Convert.FromBase64String(path);
+            var stream = new MemoryStream(fromBase64);
             var auth = new FirebaseAuthProvider(new FirebaseConfig(FirebasePaths.ApiKey));
             var login = await auth.SignInWithEmailAndPasswordAsync("forusestorage@hotmail.com", "x03121998X+");
             var cancellation = new CancellationTokenSource();
-            FileInfo info = new FileInfo(path);
             var upload = new Firebase.Storage.FirebaseStorage(FirebasePaths.AppBucket)
                 .Child("images")
                 .Child(roomId)
-                .Child(info.Name)
+                .Child(fileName)
                 .PutAsync(stream, cancellation.Token);
-            List<string> list = new List<string>();
-            list.Add(await upload);
-            list.Add(info.Name);
-            return list;
+
+            return await upload;
         }
 
         public async void Delete(string fileName,string roomId)

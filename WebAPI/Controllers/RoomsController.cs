@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("get")]
-        public ActionResult Get(string room)
+        public IActionResult Get(string room)
         {
             var result = _roomService.Get(room);
             if (result.Success)
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getuserrooms")]
-        public ActionResult GetUserRooms()
+        public IActionResult GetUserRooms()
         {
             var result = _roomService.GetUserRooms();
             if (result.Success)
@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("getusersexist")]
-        public ActionResult GetUsersExistInRoom(string room)
+        public IActionResult GetUsersExistInRoom(string room)
         {
             var result = _roomService.GetUsersExistInRoom(room);
             if (result.Success)
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public ActionResult Add(Room room)
+        public IActionResult Add(Room room)
         {
             var result = _roomService.Add(room);
             if (result.Success)
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public ActionResult Update(Room room)
+        public IActionResult Update(Room room)
         {
             var result = _roomService.Update(room);
             if (result.Success)
@@ -75,7 +75,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public ActionResult Delete(Room room)
+        public IActionResult Delete(Room room)
         {
             var result = _roomService.Delete(room);
             if (result.Success)
@@ -87,7 +87,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("createinvitation")]
-        public ActionResult CreateInvitation(Room room)
+        public IActionResult CreateInvitation(Room room)
         {
             var result = _roomService.CreateInvitation(room);
             if (result.Success)
@@ -99,7 +99,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("deleteinvitation")]
-        public ActionResult DeleteInvitation(Invitation invitation)
+        public IActionResult DeleteInvitation(Invitation invitation)
         {
             var result = _roomService.DeleteInvitation(invitation);
             if (result.Success)
@@ -111,7 +111,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getinvitation")]
-        public ActionResult GetInvitation(string room)
+        public IActionResult GetInvitation(string room)
         {
             var result = _roomService.GetInvitation(room);
             if (result.Success)
@@ -123,7 +123,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("joinroom")]
-        public ActionResult JoinRoom(InvitationForJoinRoomDto invitation)
+        public IActionResult JoinRoom(InvitationForJoinRoomDto invitation)
         {
             var result = _roomService.JoinRoom(invitation.InvitationCode);
             if (result.Success)
@@ -135,7 +135,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("leaveroom")]
-        public ActionResult LeaveRoom(Room room)
+        public IActionResult LeaveRoom(Room room)
         {
             var result = _roomService.LeaveRoom(room);
             if (result.Success)
@@ -147,7 +147,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("setcurrentroom")]
-        public ActionResult SetCurrentRoom(Room room)
+        public IActionResult SetCurrentRoom(Room room)
         {
             var result = _roomService.SetCurrentRoom(room);
             if (result.Success)
@@ -159,7 +159,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getcurrentroom")]
-        public ActionResult GetCurrentRoom()
+        public IActionResult GetCurrentRoom()
         {
             var result = _roomService.GetCurrentRoom();
             if (result.Success)

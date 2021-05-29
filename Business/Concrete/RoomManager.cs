@@ -24,7 +24,6 @@ namespace Business.Concrete
         private IInvitationDal _invitationDal;
         private IInvitationHelper _invitationHelper;
 
-        private ITransactionService _transactionService;
         private IUserService _userService;
 
         private ICacheManager _cacheManager;
@@ -32,14 +31,13 @@ namespace Business.Concrete
         private int _invitationExpireTime = 15;
 
 
-        public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService, ITransactionService transactionService, ICacheManager cacheManager)
+        public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService, ICacheManager cacheManager)
         {
             _roomDal = roomDal;
             _invitationDal = invitationDal;
             _invitationHelper = invitationHelper;
             _userRoomDal = userRoomDal;
             _userService = userService;
-            _transactionService = transactionService;
             _cacheManager = cacheManager;
         }
         [CacheAspect(duration: 60)]
@@ -209,8 +207,6 @@ namespace Business.Concrete
             _roomDal.Delete(room);
             var users = _userRoomDal.GetAll().Where(u => u.RoomId == room.Id).ToList();
             users.ForEach(u => _userRoomDal.Delete(u));
-            _transactionService.GetTransactionsForRoom(room.Id).Data
-                .ForEach(x => _transactionService.Delete(x));
             var invitation = GetInvitation(room.Id);
             DeleteInvitation(invitation.Data);
             return new SuccessResult(Messages.RoomDeleted);

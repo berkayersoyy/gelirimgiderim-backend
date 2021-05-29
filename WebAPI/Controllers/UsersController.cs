@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("currentuser")]
-        public ActionResult GetCurrentUser()
+        public IActionResult GetCurrentUser()
         {
             var result = _userService.GetCurrentUser();
             if (result.Success)
@@ -27,7 +27,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-        public ActionResult GetUserById(string id)
+        public IActionResult GetUserById(string id)
         {
             var result = _userService.GetById(id);
             if (result.Success)
@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbyemail")]
-        public ActionResult GetUserByEmail(string email)
+        public IActionResult GetUserByEmail(string email)
         {
             var result = _userService.GetByMail(email);
             if (result.Success)

@@ -12,17 +12,7 @@ namespace Console
     {
         static void Main(string[] args)
         {
-            List<string> ab = new List<string>();
-            ab.Add("category");
-            ab.Add("transaction");
-            ab.Add("room");
-            ab.Add("claim");
-            FbSharedClaimDal a = new FbSharedClaimDal();
-            a.Add(new SharedClaim
-            {
-                Name = "admin",
-                ClaimProperties = ab
-            });
+
         }
 
 

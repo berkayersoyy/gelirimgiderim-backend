@@ -4,11 +4,11 @@ namespace Business.Constants
 {
     public static class Messages
     {
-        public static string TransactionsFetched = "Ýþlemler getirildi.";
-        public static string TransactionFetched = "Ýþlem getirildi.";
-        public static string TransactionAdded = "Ýþlem eklendi.";
-        public static string TransactionDeleted = "Ýþlem silindi.";
-        public static string TransactionUpdated = "Ýþlem güncellendi.";
+        public static string TransactionsFetched = "Islemler getirildi.";
+        public static string TransactionFetched = "Islem getirildi.";
+        public static string TransactionAdded = "Islem eklendi.";
+        public static string TransactionDeleted = "Islem silindi.";
+        public static string TransactionUpdated = "Islem güncellendi.";
 
         public static string CategoriesFetched = "Kategoriler getirildi.";
         public static string CategoryFetched = "Kategori getirildi.";
@@ -24,8 +24,8 @@ namespace Business.Constants
         public static string UserAlreadyRegistered = "Kullanýcý zaten kayýtlý.";
         public static string UserRegistered = "Kullanýcý kaydoldu.";
         public static string UserNotFound = "Kullanýcý bulunamadý.";
-        public static string WrongPassword = "Hatalý þifre.";
-        public static string SuccessfulLogin = "Baþarýyla giriþ yapýldý.";
+        public static string WrongPassword = "Hatalý sifre.";
+        public static string SuccessfulLogin = "Basarýyla giris yapýldý.";
         public static string UserExists = "Kullanýcý zaten kayýtlý.";
         public static string AccessTokenCreated = "Access token created.";
         public static string UserClaimsFetched = "Kullanýcý yetkileri getirildi.";
@@ -38,13 +38,13 @@ namespace Business.Constants
         public static string InvitationFetched = "Davet kodu getirildi.";
         public static string InvitationDeleted = "Davet kodu silindi.";
         public static string InvitationNotFound = "Davet kodu bulunamadý.";
-        public static string JoinRoomSuccessful = "Odaya baþarýyla katýlýndý.";
-        public static string LeaveRoomSuccessful = "Odadan baþarýyla ayrýlýndý.";
-        public static string RoomCreated = "Oda oluþturuldu.";
+        public static string JoinRoomSuccessful = "Odaya basarýyla katýlýndý.";
+        public static string LeaveRoomSuccessful = "Odadan basarýyla ayrýlýndý.";
+        public static string RoomCreated = "Oda olusturuldu.";
         public static string RoomDeleted = "Oda silindi.";
         public static string RoomUpdated = "Oda güncellendi.";
         public static string UserFetchedById = "Kullanýcýlar getirildi.";
-        public static string CurrentUserFetched = "Þuanki kullanýcý getirildi.";
+        public static string CurrentUserFetched = "Suanki kullanýcý getirildi.";
         public static string UserNotFoundInRoom = "Kullanýcý odada bulunamadý.";
         public static string UserAlreadyExistsInRoom = "Kullanýcý odada zaten kayýtlý.";
         public static string InvitationExpired = "Davet kodunun zamaný doldu.";
@@ -61,7 +61,7 @@ namespace Business.Constants
 
 
         public static string AuthorizationDenied = "Yetkiniz yok.";
-        public static string RoomLimitExceed = "Oda sýnýrý aþýldý, maksimum 100 kiþi.";
+        public static string RoomLimitExceed = "Oda sýnýrý asýldý, maksimum 100 kiþi.";
         public static string UserAlreadyHaveClaim = "Kullanýcý zaten bir yetkiye sahip.";
         public static string ClaimUpdatedToUser = "Kullanýcý yetkisi güncellendi.";
     }

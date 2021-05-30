@@ -4,6 +4,7 @@ using Business.Constants;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
+using Core.Utilities.Security.Exception;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +26,7 @@ namespace Business.Aspects.Autofac
         {
             var room = _roomService.GetCurrentRoom().Data;
             var claims = _claimService.GetUserClaims(room.Id);
+            var sharedClaims = _claimService.GetUserSharedClaims(room.Id);
             foreach (var role in _roles)
             {
                 foreach (var claim in claims.Data)
@@ -34,8 +36,16 @@ namespace Business.Aspects.Autofac
                         return;
                     }
                 }
+
+                foreach (var sharedClaim in sharedClaims.Data)
+                {
+                    if (sharedClaim.ClaimProperties.Contains(role))
+                    {
+                        return;
+                    }
+                }
             }
-            throw new Exception(Messages.AuthorizationDenied);
+            throw new AuthorizationDeniedException();
         }
     }
 }

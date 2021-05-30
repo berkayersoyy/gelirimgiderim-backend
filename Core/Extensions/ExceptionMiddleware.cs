@@ -2,6 +2,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Core.Utilities.Security.Exception;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
@@ -45,6 +46,12 @@ namespace Core.Extensions
             {
                 httpContext.Response.StatusCode= (int) HttpStatusCode.Unauthorized;
                 message = exception.Message;
+            }
+
+            if (exception.GetType() == typeof(AuthorizationDeniedException))
+            {
+                httpContext.Response.StatusCode = (int) HttpStatusCode.Forbidden;
+                message = "Yetkiniz yok!";
             }
             return httpContext.Response.WriteAsync(new ErrorDetails
             {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Business.Abstract;
+using Business.Aspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -39,18 +40,18 @@ namespace Business.Concrete
             return new SuccessDataResult<Category>(result,Messages.CategoryFetched);
         }
 
-        public IDataResult<List<Category>> GetSharedList()
+        public IDataResult<List<SharedCategory>> GetSharedList()
         {
             var result = _sharedCategoryDal.GetAll();
-            return new SuccessDataResult<List<Category>>(result);
+            return new SuccessDataResult<List<SharedCategory>>(result);
         }
 
-        public IDataResult<Category> GetShared(string categoryId)
+        public IDataResult<SharedCategory> GetShared(string categoryId)
         {
             var result = _sharedCategoryDal.GetAll().SingleOrDefault(c => c.Id.Equals(categoryId));
-            return new SuccessDataResult<Category>(result);
+            return new SuccessDataResult<SharedCategory>(result);
         }
-
+        [SecuredOperation("category")]
         [ValidationAspect(typeof(CategoryValidator),Priority = 1)]
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Category category)
@@ -58,6 +59,7 @@ namespace Business.Concrete
             _categoryDal.Add(category);
             return new SuccessResult(Messages.CategoryAdded);
         }
+        [SecuredOperation("category")]
         [ValidationAspect(typeof(CategoryValidator), Priority = 1)]
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Category category)
@@ -65,6 +67,7 @@ namespace Business.Concrete
             _categoryDal.Update(category);
             return new SuccessResult(Messages.CategoryUpdated);
         }
+        [SecuredOperation("category")]
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Delete(Category category)
         {

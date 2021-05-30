@@ -1,6 +1,12 @@
+using Business.Abstract;
+using Business.Concrete;
+using Business.DependencyResolvers.Autofac;
+using Core.CrossCuttingConcerns.Caching;
+using Core.CrossCuttingConcerns.Caching.Microsoft;
 using Core.DependencyResolvers;
 using Core.Extensions;
 using Core.Utilities.IoC;
+using Core.Utilities.RoomInvitation;
 using Core.Utilities.Security.Encryption;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Core.Utilities.Security.Jwt;
+using DataAccess.Abstract;
+using DataAccess.Concrete.Firebase;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI
@@ -47,10 +56,10 @@ namespace WebAPI
 
                     };
                 });
-
             services.AddDependencyResolvers(new ICoreModule[]
             {
                 new CoreModule(),
+                new BusinessModule()
             });
         }
 

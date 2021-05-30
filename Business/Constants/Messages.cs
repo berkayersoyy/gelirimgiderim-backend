@@ -62,5 +62,7 @@ namespace Business.Constants
 
         public static string AuthorizationDenied = "Yetkiniz yok.";
         public static string RoomLimitExceed = "Oda sýnýrý aþýldý, maksimum 100 kiþi.";
+        public static string UserAlreadyHaveClaim = "Kullanýcý zaten bir yetkiye sahip.";
+        public static string ClaimUpdatedToUser = "Kullanýcý yetkisi güncellendi.";
     }
 }

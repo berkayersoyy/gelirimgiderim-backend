@@ -136,6 +136,29 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
-        
+
+        [HttpGet("getusersharedclaims")]
+        public IActionResult GetUserSharedClaims(string roomId)
+        {
+            var result = _claimService.GetUserSharedClaims(roomId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("updateclaimtouser")]
+        public IActionResult UpdateClaimToUser(UserClaim userClaim)
+        {
+            var result = _claimService.UpdateClaimToUser(userClaim);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

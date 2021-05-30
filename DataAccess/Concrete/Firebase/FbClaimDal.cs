@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using Core.Constants;
 using Core.DataAccess.FirebaseDatabase;
 using Core.Entities.Concrete;
@@ -17,18 +18,17 @@ namespace DataAccess.Concrete.Firebase
 
     public List<Claim> GetUserClaims(string room, string userId)
     {
-      var userClaimsList = from userClaims in _userClaimDal.GetAll()
-        join claim in this.GetAll() on userClaims.RoomId equals room
-        where userClaims.UserId == userId
+        var userClaimsList = from userClaim in _userClaimDal.GetAll()
+        join claim in GetAll() on userClaim.RoomId equals room
+        where userClaim.UserId == userId && userClaim.ClaimId == claim.Id
         select new Claim
         {
           Id = claim.Id,
           Name = claim.Name,
           ClaimProperties = claim.ClaimProperties,
           RoomId = claim.RoomId,
-          Priority = claim.Priority
         };
-      return userClaimsList.ToList();
+        return userClaimsList.ToList();
     }
 
   }

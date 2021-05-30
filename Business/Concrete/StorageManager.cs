@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Business.Abstract;
+using Business.Aspects.Autofac;
 using Core.Utilities.Results;
 using Core.Utilities.RoomInvitation;
 using DataAccess.Abstract;
@@ -18,7 +19,7 @@ namespace Business.Concrete
             _roomService = roomService;
             _codeGenerator = codeGenerator;
         }
-
+        [SecuredOperation("room")]
         public IDataResult<List<string>> Upload(string path)
         {
             List<string> list = new List<string>();
@@ -29,14 +30,14 @@ namespace Business.Concrete
             list.Add(fileName);
             return new SuccessDataResult<List<string>>(list);
         }
-
+        [SecuredOperation("room")]
         public IResult Delete(string fileName)
         {
             var currentRoom = _roomService.GetCurrentRoom();
             _storageDal.Delete(currentRoom.Data.Id, fileName);
             return new SuccessResult();
         }
-
+        [SecuredOperation("room")]
         public IDataResult<string> Get(string fileName)
         {
             var currentRoom = _roomService.GetCurrentRoom();

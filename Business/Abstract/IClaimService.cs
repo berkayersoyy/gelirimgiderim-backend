@@ -14,8 +14,9 @@ namespace Business.Abstract
     IDataResult<List<Claim>> GetUserClaims(string room);
     IResult AddClaimToUser(UserClaim userClaim);
     IResult DeleteClaimFromUser(UserClaim userClaim);
-    IDataResult<List<Claim>> GetSharedList();
-    IDataResult<Claim> GetShared(string claimId);
-
+    IDataResult<List<SharedClaim>> GetSharedList();
+    IDataResult<SharedClaim> GetShared(string claimId);
+    IDataResult<List<SharedClaim>> GetUserSharedClaims(string roomId);
+    IResult UpdateClaimToUser(UserClaim userClaim);
   }
 }

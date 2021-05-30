@@ -169,5 +169,17 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpPost("leaveuserfromroom")]
+        public IActionResult LeaveUserFromRoom(User user)
+        {
+            var result = _roomService.LeaveUserFromRoom(user);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

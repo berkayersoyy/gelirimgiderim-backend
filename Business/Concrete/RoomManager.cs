@@ -8,6 +8,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
 using System.Linq;
+using Business.Aspects.Autofac;
 using Business.ValidationRules.FluentValidation;
 using Castle.Core.Internal;
 using Core.Aspects.Autofac.Caching;
@@ -25,13 +26,14 @@ namespace Business.Concrete
         private IInvitationHelper _invitationHelper;
 
         private IUserService _userService;
+        private IUserClaimDal _userClaimDal;
 
         private ICacheManager _cacheManager;
 
         private int _invitationExpireTime = 15;
 
 
-        public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService, ICacheManager cacheManager)
+        public RoomManager(IRoomDal roomDal, IInvitationDal invitationDal, IInvitationHelper invitationHelper, IUserRoomDal userRoomDal, IUserService userService, ICacheManager cacheManager, IUserClaimDal userClaimDal)
         {
             _roomDal = roomDal;
             _invitationDal = invitationDal;
@@ -39,6 +41,7 @@ namespace Business.Concrete
             _userRoomDal = userRoomDal;
             _userService = userService;
             _cacheManager = cacheManager;
+            _userClaimDal = userClaimDal;
         }
         [CacheAspect(duration: 60)]
         public IDataResult<List<Room>> GetList()
@@ -65,6 +68,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Invitation>>(result,Messages.InvitationsFetched); 
             //TODO github readmes need to be added.
         }
+        [SecuredOperation("room")]
         public IDataResult<Invitation> CreateInvitation(Room room)
         {
             var invitationCheck = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == room.Id);
@@ -89,7 +93,7 @@ namespace Business.Concrete
             }
             return new ErrorDataResult<Invitation>(Messages.InvitationExists);
         }
-
+        [SecuredOperation("room")]
         public IDataResult<Invitation> GetInvitation(string roomId)
         {
             var invitation = _invitationDal.GetAll().SingleOrDefault(r => r.RoomId == roomId);
@@ -107,7 +111,7 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<Invitation>(invitation, Messages.InvitationFetched);
         }
-
+        [SecuredOperation("room")]
         public IResult DeleteInvitation(Invitation invitation)
         {
             _invitationDal.Delete(invitation);
@@ -196,12 +200,19 @@ namespace Business.Concrete
                     UserId = userCheck.Data.Id,
                     RoomId = room.Id
                 });
+                _userClaimDal.Add(new UserClaim
+                {
+                    ClaimId = "UYoq9JiRbTLDkGq0NHiJ",
+                    RoomId = room.Id,
+                    UserId = userCheck.Data.Id
+                });
                 return new SuccessResult(Messages.RoomCreated);
             }
             return new ErrorResult(Messages.UserNotFound);
         }
         [ValidationAspect(typeof(RoomValidator), Priority = 1)]
         [CacheRemoveAspect("IRoomService.Get")]
+        [SecuredOperation("room")]
         public IResult Delete(Room room)
         {
             _roomDal.Delete(room);
@@ -212,6 +223,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RoomDeleted);
         }
         [CacheRemoveAspect("IRoomService.Get")]
+        [SecuredOperation("room")]
         public IResult Update(Room room)
         {
             _roomDal.Update(room);
@@ -228,7 +240,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Room>>(result, Messages.UserRoomsFetched);
 
         }
-
+        [SecuredOperation("room")]
+        public IResult LeaveUserFromRoom(User user)
+        {
+            var currentRoom = GetCurrentRoom();
+            var userToDeleteFromRoom = _userRoomDal.GetAll()
+                .SingleOrDefault(r => r.UserId.Equals(user.Id) && r.RoomId.Equals(currentRoom.Data.Id));
+            _userRoomDal.Delete(userToDeleteFromRoom);
+            return new SuccessResult();
+        }
         private IResult CheckIfRoomCapasityLessThan100(string roomId)
         {
             var result = _userRoomDal.GetAll().Where(r => r.RoomId.Equals(roomId));
@@ -239,6 +259,7 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+
 
     }
 }

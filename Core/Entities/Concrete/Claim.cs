@@ -15,7 +15,5 @@ namespace Core.Entities.Concrete
     public string Name { get; set; }
     [FirestoreProperty]
     public List<string> ClaimProperties { get; set; }
-    [FirestoreProperty]
-    public int Priority { get; set; }
   }
 }

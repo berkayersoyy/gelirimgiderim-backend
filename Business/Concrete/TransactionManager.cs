@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Business.Abstract;
+using Business.Aspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -48,6 +49,7 @@ namespace Business.Concrete
 
         [ValidationAspect(typeof(TransactionValidator), Priority = 1)]
         [CacheRemoveAspect("ITransactionService.Get")]
+        [SecuredOperation("transaction")]
         public IResult Add(Transaction transaction)
         {
             transaction.Date = DateTime.UtcNow
@@ -59,12 +61,14 @@ namespace Business.Concrete
         }
         [ValidationAspect(typeof(TransactionValidator), Priority = 1)]
         [CacheRemoveAspect("ITransactionService.Get")]
+        [SecuredOperation("transaction")]
         public IResult Update(Transaction transaction)
         {
             _transactionDal.Update(transaction);
             return new SuccessResult(Messages.TransactionUpdated);
         }
         [CacheRemoveAspect("ITransactionService.Get")]
+        [SecuredOperation("transaction")]
         public IResult Delete(Transaction transaction)
         {
             _transactionDal.Delete(transaction);
